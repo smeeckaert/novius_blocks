@@ -130,6 +130,67 @@ return array(
 
 ---
 
+###CSS Files
+
+---
+
+For each block you have in your configurations files, you can create 3 CSS files :
+
+>- ####The front CSS
+Deals with the apparence of your block in your webpages
+<br />
+**url :** static/apps/novius_blocks/css/front/your_block_name.css
+<br>
+<br>
+>- ####The back CSS
+Deals with the apparence of your block in the administration (the little preview)
+<br />
+**url :** static/apps/novius_blocks/css/admin/your_block_name.css
+<br>
+<br>
+>- ####The enhancer preview CSS
+For the apparence of your block in the enhancer (if you activated the preview)
+<br>
+**url :** static/apps/novius_blocks/css/admin/your_block_name.preview.css
+
+You don't have to specify these URLs in your config files, these are the default URLs.
+
+---
+
+###Views
+
+---
+
+####Location
+
+><p>You have a view per block. By default, you have to create a view with this path :</p>
+<p>**local/views/novius_blocks/your_block_name.view.php**</p>
+<p>If you want to use a different path, you may specify it in the config key 'view' of your config file.</p>
+
+####Available variables
+>In a view file, you have several variables available. For some of them, there is 2 ways of calling them :
+- **In php :** <?= $var ?> or <?php echo $var ?>
+- **In a template way :** {var}
+
+<p>Here is the list of the available variables :</p>
+<br>
+
+| Var               | Type          | Description                                                   | Available in template way {var}   |
+ -------------------|---------------|---------------------------------------------------------------|-----------------------------------
+| title             | string        | The title of your block                                       | yes
+| name              | string        | name of the block (from your config)                          | yes
+| description       | string        | Wysiwyg content                                               | yes
+| link              | string        | URL of the link                                               | yes
+| link_title        | string        | title of the link                                             | yes
+| link_new_page     | boolean       | true if the link must open in a new window false if not &nbsp;| no
+| image             | string        | html template of the block's image                            | yes
+| class             | string        | class(es) of your block                                       | yes
+| block             | Model Block   | The Model_Block object                                        | no
+
+
+
+---
+
 ###Activate the preview in enhancers
 
 It's possible to add the preview of the blocks during the implementation of an enhancer of the Blocks application.
