@@ -14,8 +14,15 @@ $grid_columns = \Arr::get($config, 'columns', 12);
 $grid_size = \Arr::get($config, 'grid_builder_size', 70);
 
 // Append some CSS to style the grid
-\Nos\Nos::main_controller()->addCss('static/apps/novius_blocks/css/front/display/grid.css');
-
+if (NOS_ENTRY_POINT == \Nos\Nos::ENTRY_POINT_ADMIN) {
+    ?>
+    <style type="text/css">
+        <?= file_get_contents('static/apps/novius_blocks/css/front/display/grid.css') ?>
+    </style>
+    <?php
+} else {
+    \Nos\Nos::main_controller()->addCss('static/apps/novius_blocks/css/front/display/grid.css');
+}
 ?>
 <div class="block-display block-display-grid" id="block-display-<?= $display->blod_id ?>">
     <?php foreach ($display->blod_structure as $columns) { ?>
