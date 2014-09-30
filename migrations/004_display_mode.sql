@@ -1,4 +1,3 @@
-<?php
 /**
  * Novius Blocks
  *
@@ -8,11 +7,4 @@
  * @link http://www.novius-os.org
  */
 
-namespace Novius\Blocks;
-
-class Controller_Admin_Display_Crud extends \Nos\Controller_Admin_Crud
-{
-    public function before_save($item, $data) {
-        $item->blod_mode = \Input::post('blod_mode');
-    }
-}
+ALTER TABLE `novius_blocks_displays` ADD `blod_mode` VARCHAR(20) DEFAULT 'fixed' NOT NULL AFTER `blod_structure`;

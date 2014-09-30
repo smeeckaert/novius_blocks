@@ -2,6 +2,7 @@
 
 $config = \Config::load('display', true);
 
+$grid_columns = \Arr::get($config, 'columns', 12);
 $grid_size = \Arr::get($config, 'grid_builder_size', 70);
 
 !empty($item->blod_structure) or ($item->blod_structure = array());
@@ -9,7 +10,15 @@ $grid_size = \Arr::get($config, 'grid_builder_size', 70);
 $default_structure = \Arr::filter_recursive($item->blod_structure);
 
 ?>
-<div class="grid-builder" data-default-structure="<?= htmlspecialchars(\Fuel\Core\Format::forge($default_structure)->to_json()) ?>" data-hidden-field="blod_structure"></div>
+<div class="grid-builder" data-default-structure="<?= htmlspecialchars(\Fuel\Core\Format::forge($default_structure)->to_json()) ?>" data-hidden-field="blod_structure" data-hidden>
+    <div class="grid-mode">
+        <select name="blod_mode" data-grid-mode>
+            <option value="fixed" <?= $item->blod_mode == $item::MODE_FIXED ? 'selected="selected"' : '' ?> data-description="<?= __('La largeur et la hauteur des blocs seront restituées proportionnellement.') ?>">Fixe</option>
+            <option value="floating" <?= $item->blod_mode == $item::MODE_FLOATING ? 'selected="selected"' : '' ?> data-description="<?= __('La largeur des blocs sera restituée proportionnellement mais leur hauteur s\'adaptera au contenu.') ?>">Flottant</option>
+        </select>
+        <div class="description" data-grid-mode-description></div>
+    </div>
+</div>
 
 <script type="text/javascript">
 require(
@@ -29,6 +38,7 @@ require(
 
             // Initialize settings
             var settings = {
+                mode: 'fixed', // fixed or floating
                 block: {
                     size: <?= $grid_size ?>
                 }
@@ -36,6 +46,18 @@ require(
 
             // Initialize the grid
             var $rows = $('<div class="grid-rows"></div>').appendTo($grid);
+
+            // Switch mode (floating or fixed)
+            $grid.find('[data-grid-mode]').on('change', function() {
+                if ($(this).val() == 'floating') {
+                    $grid.addClass('floating').removeClass('fixed');
+                } else {
+                    $grid.addClass('fixed').removeClass('floating');
+                }
+                $grid.find('[data-grid-mode-description]').html(
+                    $(this).find('option:selected').data('description')
+                );
+            }).trigger('change');
 
             // Initialize the save event
             $grid.bind('save', function() {
@@ -98,6 +120,47 @@ require(
                     }
                 });
                 return rows;
+            }
+
+            function preview_grid() {
+                var $preview = $grid.next('.grid-preview');
+                if (!$preview.length) {
+                    $preview = $('<div class="grid-preview"></div>').insertAfter($grid);
+                } else {
+                    $preview.html('');
+                }
+                $grid.find('.grid-row').each(function() {
+                    var columns = [];
+
+                    var $new_row = $('<div/>').addClass('row').appendTo($preview);
+
+                    // Search columns
+                    $(this).find('.grid-column').each(function() {
+                        var $column = $(this);
+
+                        var $new_column = $('<div/>').addClass('column').appendTo($new_row);
+
+                        var blocks = [];
+                        // Search blocks
+                        $(this).find('.grid-block').each(function() {
+                            var $block = $(this);
+                            blocks.push({
+                                w: $block.width() / settings.block.size,
+                                h: $block.height() / settings.block.size
+                            });
+                            var w = (100 / <?= $grid_columns ?>) * ($block.width() / settings.block.size);
+                            $('<div/>').addClass('block').attr('width', w + '%').appendTo($new_column);
+                        });
+                        columns.push({
+                            w: $column.width() / settings.block.size,
+                            h: $column.height() / settings.block.size,
+                            blocks: blocks
+                        })
+                    });
+                    if (columns.length) {
+                        rows.push(columns);
+                    }
+                });
             }
 
             /**
@@ -229,6 +292,7 @@ require(
                 // Resizable column
                 $column.resizable({
                     grid: settings.block.size,
+                    handles: settings.mode == 'floating' ? 'e' : 'e',
                     stop: function() {
                         // Generate block numbers
                         generate_blocks_numbers();
@@ -285,7 +349,8 @@ require(
             function init_block($block, params) {
                 $block.resizable({
                     grid: settings.block.size,
-                    containment: "parent",
+//                    containment: "parent",
+                    handles: settings.mode == 'floating' ? 'e' : 's, e',
                     stop: function() {
                         // Generate block numbers
                         generate_blocks_numbers();
@@ -294,7 +359,7 @@ require(
                     },
                     // Minimal height and width based on content
                     resize: function(event, ui) {
-                        column_fit_blocks($(ui.element).closest('.grid-column'));
+                        //column_fit_blocks($(ui.element).closest('.grid-column'));
                     }
                 });
 
@@ -344,8 +409,21 @@ require(
 <style type="text/css">
 .grid-builder {
     position: relative;
-    width: <?= \Arr::get($config, 'columns', 12) * $grid_size ?>px;
+    width: <?= $grid_columns * $grid_size ?>px;
     padding: 20px;
+}
+
+.grid-builder .grid-mode {
+    margin-bottom: 15px;
+}
+
+.grid-builder .grid-mode select {
+    margin: 0 8px 15px 0;
+    float: left;
+}
+
+.grid-builder .grid-mode .description {
+    padding: 7px 0;
 }
 
 .grid-builder .sortable {
@@ -378,6 +456,10 @@ require(
     border: 0;
 }
 
+.grid-builder.floating .sortable li {
+    height: <?= $grid_size ?>px !important;
+}
+
 .grid-builder .grid-rows {
     margin-bottom: 15px;
 }
@@ -402,6 +484,17 @@ require(
     max-height: 100%;
     background: rgb(244, 250, 255);
     background: rgb(217, 235, 245);
+}
+
+.grid-builder.floating .grid-column {
+    height: auto !important;
+    min-height: 100% !important;
+}
+
+.grid-builder.fixed .grid-column {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
 }
 
 .grid-builder .grid-column:before {

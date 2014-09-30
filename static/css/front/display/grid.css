@@ -1,0 +1,28 @@
+.block-display-grid .grid-row:before,
+.block-display-grid .grid-row:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.block-display-grid .grid-col {
+    float: left;
+}
+.block-display-grid .grid-block-square {
+    position: relative;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+}
+.block-display-grid .grid-block-square-layout {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+.block-display-grid .clearfix {
+    clear: both;
+}
+
+.block-display-grid .grid-block {
+    float: left;
+}

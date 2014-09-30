@@ -8,11 +8,8 @@
  * @link http://www.novius-os.org
  */
 
-namespace Novius\Blocks;
+namespace Novius\Blocks\Migrations;
 
-class Controller_Admin_Display_Crud extends \Nos\Controller_Admin_Crud
+class Display_Mode extends \Nos\Migration
 {
-    public function before_save($item, $data) {
-        $item->blod_mode = \Input::post('blod_mode');
-    }
 }

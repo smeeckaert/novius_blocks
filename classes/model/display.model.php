@@ -15,6 +15,9 @@ class Model_Display extends \Nos\Orm\Model
     protected static $_primary_key = array('blod_id');
     protected static $_table_name = 'novius_blocks_displays';
 
+    const MODE_FIXED = 'fixed';
+    const MODE_FLOATING = 'floating';
+
     protected static $_properties = array(
         'blod_id' => array(
             'default' => null,
@@ -30,6 +33,11 @@ class Model_Display extends \Nos\Orm\Model
             'default' => null,
             'data_type' => 'serialize',
             'null' => true,
+        ),
+        'blod_mode' => array(
+            'default' => 'fixed',
+            'data_type' => 'varchar',
+            'null' => false,
         ),
     );
 
