@@ -200,4 +200,8 @@ return array(
     'Create a new column' => 'Ajouter une nouvelle colonne',
     'Create a new row' => 'Ajouter une nouvelle ligne',
     'Delete this block' => 'Supprimer ce bloc',
+    'Fixed' => 'Fixe',
+    'Floating' => 'Flottant',
+    'The width and height of the blocks will be rendered proportionately.' => 'La largeur et la hauteur des blocs seront restituées proportionnellement.',
+    'The width of the blocks will be rendered proportionately but their height will fit the content.' => 'La largeur des blocs sera restituée proportionnellement mais leur hauteur s\'adaptera au contenu.',
 );

@@ -13,8 +13,12 @@ $default_structure = \Arr::filter_recursive($item->blod_structure);
 <div class="grid-builder" data-default-structure="<?= htmlspecialchars(\Fuel\Core\Format::forge($default_structure)->to_json()) ?>" data-hidden-field="blod_structure" data-hidden>
     <div class="grid-mode">
         <select name="blod_mode" data-grid-mode>
-            <option value="fixed" <?= $item->blod_mode == $item::MODE_FIXED ? 'selected="selected"' : '' ?> data-description="<?= __('La largeur et la hauteur des blocs seront restituées proportionnellement.') ?>">Fixe</option>
-            <option value="floating" <?= $item->blod_mode == $item::MODE_FLOATING ? 'selected="selected"' : '' ?> data-description="<?= __('La largeur des blocs sera restituée proportionnellement mais leur hauteur s\'adaptera au contenu.') ?>">Flottant</option>
+            <option value="fixed" <?= $item->blod_mode == $item::MODE_FIXED ? 'selected="selected"' : '' ?> data-description="<?= __('The width and height of the blocks will be rendered proportionately.') ?>">
+                <?= __('Fixed') ?>
+            </option>
+            <option value="floating" <?= $item->blod_mode == $item::MODE_FLOATING ? 'selected="selected"' : '' ?> data-description="<?= __('The width of the blocks will be rendered proportionately but their height will fit the content.') ?>">
+                <?= __('Floating') ?>
+            </option>
         </select>
         <div class="description" data-grid-mode-description></div>
     </div>
@@ -69,7 +73,7 @@ require(
             });
 
             // Initialize the "Add a new row" button
-            $('<a href="#" class="new-row"><?= __('Create a new line') ?></a>').on('click', function(e) {
+            $('<a href="#" class="new-row"><?= __('Create a new row') ?></a>').on('click', function(e) {
                 e.preventDefault();
                 add_row();
             }).appendTo($grid);
