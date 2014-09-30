@@ -15,7 +15,7 @@ return array(
         ),
     ),
     'preview' => array(
-        'custom' => false,
+        'custom' => true,
         'view' => 'novius_blocks::admin/enhancer/preview',
     ),
 );
