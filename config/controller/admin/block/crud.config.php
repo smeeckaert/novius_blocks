@@ -41,7 +41,7 @@ return array(
                 'view' => 'nos::form/expander',
                 'params' => array(
                     'title'   => __('Image'),
-                    'nomargin' => true,
+                    'nomargin' => false,
                     'options' => array(
                         'allowExpand' => true,
                         'fieldset' => 'image',
@@ -60,7 +60,7 @@ return array(
                 'view' => 'nos::form/expander',
                 'params' => array(
                     'title'   => __('Description'),
-                    'nomargin' => true,
+                    'nomargin' => false,
                     'options' => array(
                         'allowExpand' => true,
                         'fieldset' => 'description',
@@ -80,7 +80,7 @@ return array(
                 'view' => 'novius_blocks::admin/block/link',
                 'params' => array(
                     'title'   => __('Link'),
-                    'nomargin' => true,
+                    'nomargin' => false,
                     'options' => array(
                         'allowExpand' => true,
                         'fieldset' => 'link',

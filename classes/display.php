@@ -21,11 +21,13 @@ class Display {
      * @return array
      */
     public static function available() {
+        $views = \Config::load('novius_blocks::displays', true);
+        $models = \Novius\Blocks\Model_Display::find('all');
         return array_filter(array(
             // Get configured displays
-            'views' => \Config::load('novius_blocks::displays', true),
+            'views' => !empty($views) ? $views : array(),
             // Get user created displays
-            'model' => \Novius\Blocks\Model_Display::find('all'),
+            'model' => !empty($models) ? $models : array(),
         ));
     }
 }

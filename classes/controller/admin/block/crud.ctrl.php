@@ -89,7 +89,7 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
      */
     public function action_form($id = null)
     {
-        $context = Input::get('context', $this->item->block_context);
+        $context = Input::get('context', !empty($this->item) ? $this->item->block_context : null);
         $this->config['fields']['columns']['form']['options'] = \Arr::assoc_to_keyval(\Novius\Blocks\Model_Column::find('all', array('where' => array('blco_context' => $context))), 'blco_id', 'blco_title');
         $this->item = $this->crud_item($id);
         $this->clone = clone $this->item;

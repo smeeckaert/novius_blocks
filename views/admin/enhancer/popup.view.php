@@ -21,7 +21,6 @@ $displays = \Novius\Blocks\Display::available();
 $display_id = uniqid('display_');
 $display = \Input::get('display', false);
 
-
 // Initialize block or block list
 $blco_id            = \Input::get('blco_id', false);
 $blocks_ids          = \Input::get('blocks_ids', array());
@@ -108,11 +107,11 @@ $wrapper_blocks = uniqid('wrapper_blocks_');
     <fieldset>
         <h1><?= __('2. How to display ?') ?></h1>
         <select name="display" id="<?= $display_id ?>">
-            <?php foreach (\Arr::get($displays, 'views') as $id => $props) { ?>
+            <?php foreach (\Arr::get($displays, 'views', array()) as $id => $props) { ?>
             <option value="<?= $id ?>"<?= $id == $display ? ' selected="selected"' : '' ?>><?= \Arr::get($props, 'title') ?></option>
             <?php } ?>
             <optgroup label="<?= __('Custom displays') ?>">
-                <?php foreach (\Arr::get($displays, 'model') as $id => $props) { ?>
+                <?php foreach (\Arr::get($displays, 'model', array()) as $id => $props) { ?>
                     <option value="<?= $id ?>"<?= $id == $display ? ' selected="selected"' : '' ?>><?= \Arr::get($props, 'title') ?></option>
                 <?php } ?>
             </optgroup>
