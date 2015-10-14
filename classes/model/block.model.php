@@ -57,6 +57,11 @@ class Model_Block extends \Nos\Orm\Model
             'data_type' => 'int unsigned',
             'null'      => true,
         ),
+        'block_hidden'        => array(
+            'default'   => 0,
+            'data_type' => 'boolean',
+            'null'      => false,
+        ),
     );
 
     protected static $_observers = array(
