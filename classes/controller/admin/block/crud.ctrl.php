@@ -116,7 +116,6 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
         if ($this->is_new) {
             $this->init_item();
         }
-        $this->addStylesheets();
 
         $this->checkPermission($this->is_new ? 'add' : 'edit');
 
@@ -131,6 +130,7 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
         // after the reference was created) won't be available from the reference
         $view_params['view_params'] = & $view_params;
 
+        $this->addStylesheets();
         return \View::forge($this->config['views'][$this->is_new ? 'insert' : 'update'], $view_params, false);
     }
 
