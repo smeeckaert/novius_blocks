@@ -83,19 +83,6 @@ foreach ($templates_config as $name => $props) {
         $props['class'],
     ), $view);
 
-    if ($props['css']) {
-        ?>
-        <link rel="stylesheet" href="<?= $props['css'] ?>" />
-        <?php
-    }
-
-    // We check if there is an existing CSS file for the administration
-    if (is_file(DOCROOT . 'static/css/blocks/admin/' . $name . '.css')) {
-        ?>
-        <link rel="stylesheet" href="static/css/blocks/admin/<?= $name ?>.css" />
-        <?php
-    }
-
     ?>
     <div class="block_over_wrapper" style="<?= $props['background'] == 'transparent' ? 'background:url(static/apps/novius_blocks/img/transparent.png) repeat;' : 'background:'.$props['background'] ?>">
         <? if (!empty($props['title'])) { ?>

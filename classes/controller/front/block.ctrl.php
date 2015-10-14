@@ -145,35 +145,6 @@ class Controller_Front_Block extends \Nos\Controller_Front_Application
 
         // Get the block configuration
         $config = Model_Block::init_config($template_config, $block->block_template);
-
-        // Append the stylesheet
-        if (($stylesheet = \Arr::get($config, 'css'))) {
-            $main_controller = \Nos\Nos::main_controller();
-            if ($main_controller && method_exists($main_controller, 'addCss')) {
-                \Nos\Nos::main_controller()->addCss($stylesheet);
-            } else {
-                ?>
-                <link rel="stylesheet" href="<?= $stylesheet ?>" />
-                <?php
-            }
-        }
-
-        // Append the custom stylesheets (backoffice)
-        if (NOS_ENTRY_POINT == Nos::ENTRY_POINT_ADMIN) {
-            $files = array(
-                'static/css/blocks/admin/'.$block->block_template.'.preview.css',
-                'static/css/blocks/admin/'.$block->block_template.'.css'
-            );
-            foreach ($files as $file) {
-                if (file_exists(DOCROOT.$file)) {
-                    ?>
-                    <link rel="stylesheet" href="<?= $file ?>" />
-                    <?php
-                    break;
-                }
-            }
-        }
-
         return static::get_block_view($block, $config, $block->block_template);
     }
 
