@@ -12,6 +12,7 @@ return array(
     'model_compatibility' => array(
         'view' => 'novius_blocks::admin/block/model_compatibility',
     ),
+    'css' => array('static/apps/novius_blocks/css/admin/block.css'),
     'controller_url'      => 'admin/novius_blocks/block/crud',
     'model'               => 'Novius\Blocks\Model_Block',
     'layout'              => array(

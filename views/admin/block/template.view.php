@@ -10,9 +10,11 @@
 
 $templates_config = \Config::load('novius_blocks::templates', true);
 ?>
-<link rel="stylesheet" href="static/apps/novius_blocks/css/admin/template.css"/>
 <script type="text/javascript">
     require(['jquery-nos', 'static/apps/novius_blocks/js/admin/blocks.js?v=5.0.0.0'], function ($, callback_fn) {
+        $(function () {
+            callback_fn.call($('#<?= $fieldset->form()->get_attribute('id') ?>'), '<?= uniqid('_this_blocks_'); ?>');
+        });
     });
 </script>
 <div class="blocks_wrapper">

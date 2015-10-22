@@ -26,6 +26,13 @@ define(
                 if ($checkbox.is(':checked')) {
                     $wrapper.addClass('on');
                 }
+
+
+                var $preview = $wrapper.find('.block_preview');
+                if ($preview.length) {
+                    equalizeBlock($preview);
+                }
+
                 $wrapper.css('cursor', 'pointer').click(function (ev) {
                     var $this = $(this);
                     var $this_checkbox = $this.find('input[name="block_template"]');
@@ -40,6 +47,7 @@ define(
                 });
             });
 
+
             // We equilibrate the display of the template's preview
             var max_height = 0;
             $container.find('.block_over_wrapper').each(function () {
@@ -49,10 +57,29 @@ define(
             });
             $container.find('.block_over_wrapper').css('min-height', max_height);
 
+            function equalizeBlock($block) {
+                var paddingBlock = parseInt($block.find('.content').css('padding'));
+                $block.find('.col').each(function () {
+                    var $col = $(this);
+                    var $siblings = $col.siblings('.col');
+                    var heights = [$col.height()];
+                    if ($siblings.length) {
+                        $siblings.each(function () {
+                            heights.push($(this).height());
+                        });
+                    }
+                    console.log(Math.max.apply(null, heights));
+                    var height = Math.max.apply(null, heights);
+                    $col.css('height', height + 'px');
+                    $col.children('.content').css('height', (height - 2 * paddingBlock) + 'px');
+                });
+            }
+
             function getURLParameter(name) {
                 return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null
             }
 
+            // Change the form type
             function setTemplate($container, $selected) {
                 var tplName = $selected.val();
                 var tabUrl = getURLParameter('tab');
@@ -72,10 +99,6 @@ define(
                     url   : tabUrl,
                     reload: true
                 });
-
-                console.log(tabUrl);
-                // Get tab url et append the template name, refresh and go!
-                console.log(tplName);
             }
         }
     }
