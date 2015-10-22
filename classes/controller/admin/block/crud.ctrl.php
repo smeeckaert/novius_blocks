@@ -144,7 +144,7 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
             }
         }
 
-        $this->clone = clone $this->item;
+        $this->clone                                          = clone $this->item;
         //d($this->item);
 
 

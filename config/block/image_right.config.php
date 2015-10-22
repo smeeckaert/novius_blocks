@@ -10,6 +10,7 @@ return array(
     'template' => array(
         'main_row' => array(
             'col_left'  => array(
+                'width'  => 6,
                 'fields' => array(
                     'block_title',
                 ),
