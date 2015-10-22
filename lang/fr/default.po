@@ -78,21 +78,6 @@ msgstr ""
 msgid "Link with :"
 msgstr ""
 
-#: /data/www/web/nos_sites/novius-os-depot-commun/novius_blocks/ci/i18n/po/views/admin/block/model_compatibility.view.php:17
-#: views/admin/block/model_compatibility.view.php:17
-msgid "Search for an item to synchronize :"
-msgstr ""
-
-#: /data/www/web/nos_sites/novius-os-depot-commun/novius_blocks/ci/i18n/po/views/admin/block/model_compatibility.view.php:18
-#: views/admin/block/model_compatibility.view.php:18
-msgid "Title :"
-msgstr ""
-
-#: /data/www/web/nos_sites/novius-os-depot-commun/novius_blocks/ci/i18n/po/views/admin/block/model_compatibility.view.php:20
-#: views/admin/block/model_compatibility.view.php:20
-msgid "Last elements added :"
-msgstr ""
-
 #: /data/www/web/nos_sites/novius-os-depot-commun/novius_blocks/ci/i18n/po/views/admin/block/retrieve_model.view.php:22
 #: views/admin/block/retrieve_model.view.php:22
 msgid "Retrieve the datas of an item"

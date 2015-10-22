@@ -57,15 +57,6 @@ return array(
     #: views/admin/block/connection_model.view.php:23
     'Link with :' => 'Lier avec :',
 
-    #: views/admin/block/model_compatibility.view.php:17
-    'Search for an item to synchronize :' => 'Chercher un objet à synchroniser',
-
-    #: views/admin/block/model_compatibility.view.php:18
-    'Title :' => 'Titre :',
-
-    #: views/admin/block/model_compatibility.view.php:20
-    'Last elements added :' => 'Derniers éléments ajoutés :',
-
     #: views/admin/block/retrieve_model.view.php:22
     'Retrieve the datas of an item' => '',
 

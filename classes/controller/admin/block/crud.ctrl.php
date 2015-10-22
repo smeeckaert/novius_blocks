@@ -72,27 +72,6 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
         return $tabInfos;
     }
 
-
-    /**
-     * Allows to retrieve informations from other models
-     */
-    public function action_synchro()
-    {
-        // We get the key from the config we want
-        $model_key = \Input::get('model_key');
-
-        // We load the config of the compatible models
-        $models = \Config::load('novius_blocks::model_compatibility', true);
-        if (!isset($models[$model_key])) {
-            return false;
-        }
-
-        $config_model = $models[$model_key];
-
-        // We call the view that allows us to retrieve the informations of the other model
-        return \View::forge($this->config['model_compatibility']['view'], array('config_model' => $config_model), false);
-    }
-
     protected function addStylesheets()
     {
         $stylesheets = \Arr::get($this->config, 'css');
