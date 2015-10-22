@@ -1,5 +1,8 @@
 <?php
 
+if (empty($value)) {
+    return '';
+}
 $class = get_class($value);
 
 switch ($class) {
