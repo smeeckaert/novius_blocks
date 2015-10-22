@@ -59,7 +59,7 @@ define(
 
             function equalizeBlock($block) {
                 var paddingBlock = parseInt($block.find('.content').css('padding'));
-                $block.find('.col').each(function () {
+                $block.find('.col:not(.c12)').each(function () {
                     var $col = $(this);
                     var $siblings = $col.siblings('.col');
                     var heights = [$col.height()];
@@ -68,7 +68,6 @@ define(
                             heights.push($(this).height());
                         });
                     }
-                    console.log(Math.max.apply(null, heights));
                     var height = Math.max.apply(null, heights);
                     $col.css('height', height + 'px');
                     $col.children('.content').css('height', (height - 2 * paddingBlock) + 'px');
