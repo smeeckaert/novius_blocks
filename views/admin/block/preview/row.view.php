@@ -15,12 +15,7 @@
                 echo \View::forge("novius_blocks::admin/block/preview/row", array('row' => $col, 'name' => $colname, 'item' => $item), false);
 
             } else {
-                ?>
-                <div class="content">
-                    Fields
-
-                </div>
-            <?php
+                echo \View::forge("novius_blocks::admin/block/preview/content", array('fields' => $col['fields'], 'item' => $item), false);
             }
             ?>
         </div>

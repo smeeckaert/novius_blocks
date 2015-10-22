@@ -54,7 +54,7 @@ return array(
                 'right_second_row' => array(
                     'col_left' => array(
                         'fields' => array(
-                            'medias->image->medil_media_id',
+                            'medias->image',
                         ),
                     ),
                 ),

@@ -56,5 +56,8 @@
   background: #BFDDFF;
   padding: 5px;
   border: 1px solid #fff; }
+  .block_preview .content .block_title {
+    font-weight: bold;
+    text-align: center; }
 
 /*# sourceMappingURL=block.css.map */
