@@ -12,8 +12,17 @@ namespace Novius\Blocks;
 
 use Fuel\Core\Input;
 
+/**
+ * Class Controller_Admin_Block_Crud
+ *
+ * @property Model_Block item
+ * @package Novius\Blocks
+ */
 class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
 {
+    /** @var $block_template used to store the block template for a new block */
+    protected $block_template = null;
+
     protected function init_item()
     {
         parent::init_item();
@@ -101,6 +110,22 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
         }
     }
 
+    public function action_insert_update($id = null, $block_template = null)
+    {
+        if (!is_numeric($id)) {
+            $block_template = $id;
+            $id             = null;
+        }
+        // The url is changed in JS afterwards, so we need to intercept the block template at this point
+        if (!empty($block_template)) {
+            $item                 = $this->crud_item($id);
+            $item->block_template = $block_template;
+            $this->block_template = $block_template;
+        }
+        return parent::action_insert_update($id);
+    }
+
+
     /**
      * @param null $id
      *
@@ -111,13 +136,38 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
         $context                                              = Input::get('context', !empty($this->item) ? $this->item->block_context : null);
         $this->config['fields']['columns']['form']['options'] = \Arr::assoc_to_keyval(\Novius\Blocks\Model_Column::find('all', array('where' => array('blco_context' => $context))), 'blco_id', 'blco_title');
         $this->item                                           = $this->crud_item($id);
-        $this->clone                                          = clone $this->item;
         $this->is_new                                         = $this->item->is_new();
         if ($this->is_new) {
             $this->init_item();
+            if (!empty($this->block_template)) {
+                $this->item->block_template = $this->block_template;
+            }
         }
 
+        $this->clone = clone $this->item;
+        //d($this->item);
+
+
         $this->checkPermission($this->is_new ? 'add' : 'edit');
+
+
+        $blockConfig = $this->item->getConfig();
+        $toMerge     = array('layout' => "layout.0.params", 'fields' => 'fields');
+        //d($this->config['layout']);
+        foreach ($toMerge as $source => $destination) {
+            \Arr::set($this->config, $destination,
+                \Arr::merge(
+                    \Arr::get($this->config, $destination, array()),
+                    \Arr::get($blockConfig, "crud.$source", array())
+                )
+            );
+        }
+
+        $this->config['layout_insert'] = $this->config['layout'];
+        $this->config['layout_update'] = $this->config['layout'];
+        // dd($this->config);
+
+        // dd($this->config['layout']);
 
         $fields   = $this->fields($this->config['fields']);
         $fieldset = \Fieldset::build_from_config($fields, $this->item, $this->build_from_config());

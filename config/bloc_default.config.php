@@ -9,7 +9,12 @@
  */
 
 return array(
-    'basic',
-    'image_top',
-    'image_right',
+    'title'    => '',
+    'view'     => 'novius_blocks::front/block/display',
+    'preview'  => 'novius_blocks::admin/block/preview',
+    'crud'     => array(
+        'layout' => array(),
+        'fields' => array(),
+    ),
+    'template' => array()
 );

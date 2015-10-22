@@ -5,30 +5,30 @@
  * @copyright  2014 Novius
  * @license    GNU Affero General Public License v3 or (at your option) any later version
  *             http://www.gnu.org/licenses/agpl-3.0.html
- * @link http://www.novius-os.org
+ * @link       http://www.novius-os.org
  */
 
 return array(
     'model_compatibility' => array(
         'view' => 'novius_blocks::admin/block/model_compatibility',
     ),
-    'controller_url'  => 'admin/novius_blocks/block/crud',
-    'model' => 'Novius\Blocks\Model_Block',
-    'layout' => array(
-        'large' => true,
-        'save' => 'save',
-        'title' => 'block_title',
+    'controller_url'      => 'admin/novius_blocks/block/crud',
+    'model'               => 'Novius\Blocks\Model_Block',
+    'layout'              => array(
+        'large'   => true,
+        'save'    => 'save',
+        'title'   => 'block_title',
         'content' => array(
             'template' => array(
-                'view' => 'nos::form/expander',
+                'view'   => 'nos::form/expander',
                 'params' => array(
-                    'title'   => __('Block type'),
+                    'title'    => __('Block type'),
                     'nomargin' => true,
-                    'options' => array(
+                    'options'  => array(
                         'allowExpand' => true,
                     ),
-                    'content' => array(
-                        'view' => 'novius_blocks::admin/block/template',
+                    'content'  => array(
+                        'view'   => 'novius_blocks::admin/block/template',
                         'params' => array(
                             'fields' => array(
                                 'block_template',
@@ -37,6 +37,7 @@ return array(
                     ),
                 ),
             ),
+            /*
             'image' => array(
                 'view' => 'nos::form/expander',
                 'params' => array(
@@ -126,24 +127,32 @@ return array(
                         ),
                     ),
                 ),
-            ),
+            ),*/
         ),
     ),
-    'fields' => array(
-        'block_id' => array (
-            'label' => 'ID: ',
-            'form' => array(
+    'fields'              => array(
+        'block_id'    => array(
+            'label'     => 'ID: ',
+            'form'      => array(
                 'type' => 'hidden',
             ),
             'dont_save' => true,
         ),
         'block_title' => array(
-            'label' => __('Title'),
-            'form' => array(
+            'label'      => __('Title'),
+            'form'       => array(
                 'type' => 'text',
             ),
             'validation' => array('required'),
         ),
+
+        'block_template' => array(
+            'label' => '',
+            'validation' => array(
+                'required',
+            ),
+        ),
+        /*
         'wysiwygs->description->wysiwyg_text' => array(
             'label' => __('Description'),
             'renderer' => 'Nos\Renderer_Wysiwyg',
@@ -157,12 +166,6 @@ return array(
             'renderer' => 'Nos\Renderer_Media',
             'form' => array(
                 'title' => __('Image'),
-            ),
-        ),
-        'block_template' => array(
-            'label' => '',
-            'validation' => array(
-                'required',
             ),
         ),
         'block_link' => array(
@@ -247,6 +250,6 @@ return array(
                 'class' => 'primary',
                 'data-icon' => 'check',
             ),
-        ),
+        ),*/
     )
 );

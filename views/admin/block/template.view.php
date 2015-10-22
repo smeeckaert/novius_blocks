@@ -5,97 +5,48 @@
  * @copyright  2014 Novius
  * @license    GNU Affero General Public License v3 or (at your option) any later version
  *             http://www.gnu.org/licenses/agpl-3.0.html
- * @link http://www.novius-os.org
+ * @link       http://www.novius-os.org
  */
 
 $templates_config = \Config::load('novius_blocks::templates', true);
 ?>
-<link rel="stylesheet" href="static/apps/novius_blocks/css/admin/template.css" />
+<link rel="stylesheet" href="static/apps/novius_blocks/css/admin/template.css"/>
 <script type="text/javascript">
-    require(['jquery-nos', 'static/apps/novius_blocks/js/admin/blocks.js'], function ($, callback_fn) {
+    require(['jquery-nos', 'static/apps/novius_blocks/js/admin/blocks.js?v=5.0.0.0'], function ($, callback_fn) {
         $(function () {
             callback_fn.call($('#<?= $fieldset->form()->get_attribute('id') ?>'), '<?= uniqid('_this_blocks_'); ?>');
         });
     });
 </script>
 <div class="blocks_wrapper">
-<?php
-
-foreach ($templates_config as $name => $props) {
-    $props = \Novius\Blocks\Model_Block::init_config($props, $name);
-    $props['fields'][] = 'titre';   // Mandatory title
-
-    // We set the transmitted datas
-    $title = $item->block_title ? $item->block_title : __('Title');
-    $description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ipsum eros, euismod sagittis interdum non, pulvinar in tellus.';
-    $link = '#';
-    $image = '';
-    $link_title = $item->block_link_title ? $item->block_link_title : __('Link');
-
-    if (isset($props['image_params'])) {
-        $image = str_replace(
-            array(
-                '{src}',
-                '{width}',
-                '{height}',
-            ),
-            array(
-                'http://lorempixel.com/' . $props['image_params']['width_admin'] . '/' . $props['image_params']['height_admin'],
-                $props['image_params']['width_admin'],
-                $props['image_params']['height_admin'],
-            ),
-            $props['image_params']['tpl_admin']
-        );
-    }
-
-    if ($item->block_class) {
-        $props['class'] .= ($props['class'] ? ' ' : '') . $item->block_class;
-    }
-
-    // We load the corresponding view
-    $view = \View::forge($props['view'], array(
-        'config' => $props,
-        'name' => $name,
-        'title' => $title,
-        'description' => $description,
-        'link' => $link,
-        'image' => $image,
-        'link_title' => $link_title,
-        'link_new_page' => $item->block_link_new_page,
-        'block' => $item
-    ), false);
-
-    $view = str_replace(array(
-        '{title}',
-        '{name}',
-        '{description}',
-        '{link}',
-        '{link_title}',
-        '{image}',
-        '{class}',
-    ), array(
-        $title,
-        $name,
-        $description,
-        $link,
-        $link_title,
-        $image,
-        $props['class'],
-    ), $view);
-
-    ?>
-    <div class="block_over_wrapper" style="<?= $props['background'] == 'transparent' ? 'background:url(static/apps/novius_blocks/img/transparent.png) repeat;' : 'background:'.$props['background'] ?>">
-        <? if (!empty($props['title'])) { ?>
-            <h3 class="block_title"><?= $props['title'] ?></h3>
-        <? } ?>
-        <?= $view ?>
-        <div class="block_select">
-            <label for="template_<?= $name ?>">
-                <input data-fields="<?= implode('|', $props['fields']) ?>" class="notransform" type="radio" name="block_template" id="template_<?= $name ?>" value="<?= $name ?>"<?= $item->block_template == $name ? ' checked' : '' ?> />
-            </label>
-        </div>
-    </div>
     <?php
-}
-?>
+
+    foreach ($templates_config as $name) {
+
+        if (!is_string($name)) {
+            d("Bloc $name misconfigured");
+            continue;
+        }
+        $config  = \Novius\Blocks\Model_Block::config($name);
+        $preview = \Arr::get($config, 'preview', null);
+
+        ?>
+        <div class="block_over_wrapper">
+            <? if (!empty($config['title'])) { ?>
+                <h3 class="block_title"><?= $config['title'] ?></h3>
+            <?
+            }
+            echo $preview
+            ?>
+            <div class="block_select">
+                <label for="template_<?= $name ?>">
+                    <input class="notransform" type="radio"
+                           name="block_template" id="template_<?= $name ?>"
+                           value="<?= $name ?>"<?= $item->block_template == $name ? ' checked' : '' ?> />
+                </label>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
 </div>

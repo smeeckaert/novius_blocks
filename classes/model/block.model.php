@@ -10,6 +10,19 @@
 
 namespace Novius\Blocks;
 
+/**
+ * Class Model_Block
+ *
+ * @property int    block_id
+ * @property string block_title
+ * @property string block_template
+ * @property string block_link_title
+ * @property bool   block_link_new_page
+ * @property string block_class
+ * @property string block_model
+ * @property int    block_model_id
+ * @package Novius\Blocks
+ */
 class Model_Block extends \Nos\Orm\Model
 {
 
@@ -156,6 +169,18 @@ class Model_Block extends \Nos\Orm\Model
         return $this->block_link;
     }
 
+    public function getConfig()
+    {
+        return static::config($this->block_template);
+    }
+
+    public static function config($type)
+    {
+        $configBloc    = \Config::load("novius_blocks::block/$type", true);
+        $configDefault = \Config::load("novius_blocks::block/default", true);
+        return \Arr::merge($configDefault, $configBloc);
+    }
+
     /**
      * Return the config of a particular block
      * Default parameters are defined in this function
@@ -171,6 +196,8 @@ class Model_Block extends \Nos\Orm\Model
         $default_config['view'] = str_replace('{name}', $name, $default_config['view']);
         $default_config['css']  = str_replace('{name}', $name, $default_config['css']);
 
+        d($default_config);
+        dd($config);
         $retour_config = \Arr::merge($default_config, $config);
         if (isset($config['fields']) && $config['fields']) {
             $retour_config['fields'] = $config['fields'];
