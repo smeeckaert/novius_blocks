@@ -123,7 +123,7 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
             }
         }
 
-        $this->clone                                          = clone $this->item;
+        $this->clone = clone $this->item;
         //d($this->item);
 
 
@@ -163,110 +163,4 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
         return \View::forge($this->config['views'][$this->is_new ? 'insert' : 'update'], $view_params, false);
     }
 
-    /**
-     * Get the compatible models we search with some text
-     *
-     * @param string $model_key
-     */
-    public function action_autocomplete_model($config_key = 'no')
-    {
-        // We load the config of the compatible models
-        $models = \Config::load('novius_blocks::connection_model', true);
-        $filter = \Fuel\Core\Input::post('search', '');
-
-        // We assure that the model is compatible with the block
-        if (!isset($models[$config_key])) {
-            return \Response::json(array());
-        }
-
-        $model_config = $models[$config_key];
-        $model        = $model_config['model'];
-
-        $table = $model::table();
-
-        $show = \Fuel\Core\DB::select(
-            array($model_config['autocomplete_value'], 'value'),
-            array($model_config['autocomplete_label'], 'label')
-        )->from($table);
-
-        // We search the results
-        if (strlen($filter) > 0
-            && isset($model_config['search_autocomplete_fields'])
-            && is_array($model_config['search_autocomplete_fields'])
-            && count($model_config['search_autocomplete_fields'])
-        ) {
-            $show->where_open();
-            foreach ($model_config['search_autocomplete_fields'] as $field) {
-                $show->or_where($field, 'LIKE', '%' . $filter . '%');
-            }
-            $show->where_close();
-        }
-
-        if (isset($model_config['autocomplete_callback']) && is_callable($model_config['autocomplete_callback'])) {
-            $show = $model_config['autocomplete_callback']($show);
-        }
-
-        $show = (array)$show->distinct(true)->execute()->as_array();
-
-        return \Response::json($show);
-    }
-
-    /**
-     * @param $config_key
-     * @param $model_id
-     * @param $wrapper_dialog
-     *
-     * @return bool|\Fuel\Core\View
-     */
-    public function action_retrieve_model($config_key, $model_id, $wrapper_dialog)
-    {
-        $models = \Config::load('novius_blocks::connection_model', true);
-        if (!isset($models[$config_key])) {
-            return false;
-        }
-        $model_config = $models[$config_key];
-        $class_name   = $model_config['model'];
-        if (!$item = $class_name::find($model_id)) {
-            return false;
-        }
-
-        return \View::forge('novius_blocks::admin/block/retrieve_model', array(
-            'item'           => $item,
-            'config'         => $model_config,
-            'wrapper_dialog' => $wrapper_dialog,
-            'item_id'        => $model_id,
-        ), false);
-    }
-
-    /**
-     * @param $config_key
-     * @param $model_id
-     *
-     * @return bool|\Fuel\Core\View
-     */
-    public function action_get_model_assoc_infos()
-    {
-        $config_key = \Input::get('key', false);
-        $model_id   = \Input::get('id', false);
-        if (empty($config_key) || empty($model_id)) {
-            exit();
-        }
-        $models = \Config::load('novius_blocks::connection_model', true);
-        if (!isset($models[$config_key])) {
-            exit();
-        }
-        $model_config = $models[$config_key];
-        $class_name   = $model_config['model'];
-        if (!$item = $class_name::find($model_id)) {
-            exit();
-        }
-
-        $return = \View::forge('novius_blocks::admin/block/model_assoc_infos', array(
-            'item'    => $item,
-            'config'  => $model_config,
-            'item_id' => $model_id,
-        ), false);
-        \Response::forge($return)->send(true);
-        exit();
-    }
 }

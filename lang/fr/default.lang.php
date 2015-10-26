@@ -43,7 +43,6 @@ return array(
     #. We set the transmitted datas
     #: views/admin/block/template.view.php:29
     #: config/common/block.config.php:17
-    #: config/connection_model.config.php:24
     #: config/controller/admin/block/crud.config.php:141
     #: config/controller/admin/column/crud.config.php:48
     #: config/controller/admin/display/crud.config.php:49
@@ -54,16 +53,6 @@ return array(
     #: config/controller/admin/block/crud.config.php:166
     'Link' => 'Lien',
 
-    #: views/admin/block/connection_model.view.php:23
-    'Link with :' => 'Lier avec :',
-
-    #: views/admin/block/retrieve_model.view.php:22
-    'Retrieve the datas of an item' => '',
-
-    #: views/admin/block/retrieve_model.view.php:63
-    'Use the url of an item' => '',
-
-    #: views/admin/block/retrieve_model.view.php:71
     #: config/controller/admin/display/crud.config.php:67
     #: config/controller/admin/column/crud.config.php:89
     #: config/controller/admin/block/crud.config.php:243
@@ -92,7 +81,6 @@ return array(
     #: config/controller/admin/block/crud.config.php:159
     'Image' => '',
 
-    #: config/connection_model.config.php:28
     #: config/controller/admin/block/crud.config.php:62
     #: config/controller/admin/block/crud.config.php:148
     'Description' => '',
@@ -114,9 +102,6 @@ return array(
 
     #: config/controller/admin/block/crud.config.php:219
     'Search the item' => 'Chercher l\'élément',
-
-    #: config/connection_model.config.php:14
-    'A page' => 'Une page',
 
     #: config/metadata.config.php:55
     'Put forward this element' => 'Mettez cet élément en avant',

@@ -143,27 +143,18 @@ class Model_Block extends \Nos\Orm\Model
      *
      * @return mixed|\Nos\Orm\Model|null
      */
-    public function get_url()
+    public function url()
     {
         if ($this->block_model_id && $this->block_model) {
-            $models = \Config::load('novius_blocks::connection_model', true);
-            if (!isset($models[$this->block_model])) {
-                return $this->block_link;
-            }
-            $model_config = $models[$this->block_model];
-            $class_name   = $model_config['model'];
-            // If no model is associated, we just return the text link of the block
-            if (!$item = $class_name::find($this->block_model_id)) {
-                return $this->block_link;
-            }
 
-            $url = null;
-            if ($item::behaviours('Nos\Orm_Behaviour_Urlenhancer', false) !== false || method_exists($item, 'url')) {
-                $url = $item->url();
-            }
-
-            if ($url) {
-                return $url;
+            $model = $this->block_model;
+            $item  = $model::find($this->block_model_id);
+            if (!empty($item)) {
+                try {
+                    return $item->url();
+                } catch (\Exception $e) {
+                    return null;
+                }
             }
         }
         return $this->block_link;
@@ -194,10 +185,7 @@ class Model_Block extends \Nos\Orm\Model
     {
         $default_config         = \Config::load('novius_blocks::template_default', true);
         $default_config['view'] = str_replace('{name}', $name, $default_config['view']);
-        $default_config['css']  = str_replace('{name}', $name, $default_config['css']);
 
-        d($default_config);
-        dd($config);
         $retour_config = \Arr::merge($default_config, $config);
         if (isset($config['fields']) && $config['fields']) {
             $retour_config['fields'] = $config['fields'];
@@ -225,6 +213,5 @@ class Model_Block extends \Nos\Orm\Model
         }
 
     }
-
 
 }
