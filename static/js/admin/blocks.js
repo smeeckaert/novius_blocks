@@ -47,18 +47,31 @@ define(
                 });
             });
 
-
-            // We equilibrate the display of the template's preview
-            var max_height = 0;
-            $container.find('.block_over_wrapper').each(function () {
-                if ($(this).height() > max_height) {
-                    max_height = $(this).height();
-                }
+            $container.find('img').on('load', function () {
+                $container.find('.block_over_wrapper').each(function (e) {
+                    equalizeBlock($(this).find('.block_preview'));
+                });
+                equalizeTemplates();
             });
-            $container.find('.block_over_wrapper').css('min-height', max_height);
+
+
+            function equalizeTemplates() {
+                // We equilibrate the display of the template's preview
+                var max_height = 0;
+                $container.find('.block_over_wrapper').css('min-height', '');
+                $container.find('.block_over_wrapper').each(function () {
+                    if ($(this).height() > max_height) {
+                        max_height = $(this).height();
+                    }
+                });
+                $container.find('.block_over_wrapper').css('min-height', max_height);
+            }
+
+            equalizeTemplates();
 
             function equalizeBlock($block) {
                 var paddingBlock = parseInt($block.find('.content').css('padding'));
+                $block.find('.col,.content').css('height', '');
                 $block.find('.col:not(.c12)').each(function () {
                     var $col = $(this);
                     var $siblings = $col.siblings('.col');
