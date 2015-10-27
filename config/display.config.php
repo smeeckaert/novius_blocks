@@ -9,6 +9,7 @@ return array(
 
     // The view used to generate the frontend grid
     'view'              => 'novius_blocks::front/display/grid-foundation',
-    // The view used to generate the frontend grid
+    //'view'              => 'novius_blocks::front/display/grid-bootstrap',
+    // The view used to generate the backend grid
     'preview'           => 'novius_blocks::front/display/grid',
 );
