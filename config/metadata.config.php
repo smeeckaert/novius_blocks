@@ -5,67 +5,66 @@
  * @copyright  2014 Novius
  * @license    GNU Affero General Public License v3 or (at your option) any later version
  *             http://www.gnu.org/licenses/agpl-3.0.html
- * @link http://www.novius-os.org
+ * @link       http://www.novius-os.org
  */
 
 return array(
-    'name'    => __('Blocks'),
-    'version' => 'dev',
-    'icons' => array(
+    'name'          => __('Blocks'),
+    'version'       => '5.0',
+    'icons'         => array(
         64 => 'static/apps/novius_blocks/img/64-blocks.png',
         32 => 'static/apps/novius_blocks/img/32-blocks.png',
         16 => 'static/apps/novius_blocks/img/16-blocks.png',
     ),
-    'permission' => array(
-    ),
-    'provider' => array(
+    'permission'    => array(),
+    'provider'      => array(
         'name' => 'Novius',
     ),
-    'requires' => array('novius_renderers'),
-    'namespace' => 'Novius\Blocks',
-    'launchers' => array(
-		'novius_blocks' => array(
-            'name'    => __('Blocks'),
+    'requires'      => array('novius_renderers'),
+    'namespace'     => 'Novius\Blocks',
+    'launchers'     => array(
+        'novius_blocks' => array(
+            'name'   => __('Blocks'),
             'action' => array(
                 'action' => 'nosTabs',
-                'tab' => array(
+                'tab'    => array(
                     'url' => 'admin/novius_blocks/block/appdesk',
                 ),
             ),
         ),
     ),
-    'enhancers' => array(
+    'enhancers'     => array(
         'blocks' => array(
-            'title' => __('Blocks'),
-            'id' => 'blocks',
-            'desc' => '',
-            'enhancer' => 'novius_blocks/front/block/main',
+            'title'      => __('Blocks'),
+            'id'         => 'blocks',
+            'desc'       => '',
+            'enhancer'   => 'novius_blocks/front/block/main',
             'previewUrl' => 'admin/novius_blocks/block/enhancer/preview',
-            'dialog' => array(
+            'dialog'     => array(
                 'contentUrl' => 'admin/novius_blocks/block/enhancer/popup',
-                'ajax' => true,
-                'width' => 700,
-                'height' => 500,
+                'ajax'       => true,
+                'width'      => 700,
+                'height'     => 500,
             ),
         ),
     ),
     'data_catchers' => array(
         'novius_blocks' => array(
-            'title' => __('Blocks'),
-            'description'  => __('Put forward this element'),
-            'action' => array(
+            'title'            => __('Blocks'),
+            'description'      => __('Put forward this element'),
+            'action'           => array(
                 'action' => 'nosTabs',
-                'tab' => array(
-                    'url' => 'admin/novius_blocks/block/crud/insert_update/?context={{context}}&title={{urlencode:'.\Nos\DataCatcher::TYPE_TITLE.'}}&summary={{urlencode:'.\Nos\DataCatcher::TYPE_TEXT.'}}&thumbnail={{urlencode:'.\Nos\DataCatcher::TYPE_IMAGE.'}}&absolute_url={{urlencode:absolute_url}}',
+                'tab'    => array(
+                    'url'   => 'admin/novius_blocks/block/crud/insert_update/?context={{context}}&title={{urlencode:'.\Nos\DataCatcher::TYPE_TITLE.'}}&summary={{urlencode:'.\Nos\DataCatcher::TYPE_TEXT.'}}&thumbnail={{urlencode:'.\Nos\DataCatcher::TYPE_IMAGE.'}}&absolute_url={{urlencode:absolute_url}}',
                     'label' => __('Block'),
                 ),
             ),
-            'onDemand' => true,
+            'onDemand'         => true,
             'specified_models' => false,
-            'required_data' => array(
+            'required_data'    => array(
                 \Nos\DataCatcher::TYPE_TITLE,
             ),
-            'optional_data' => array(
+            'optional_data'    => array(
                 \Nos\DataCatcher::TYPE_TEXT,
                 \Nos\DataCatcher::TYPE_IMAGE,
                 \Nos\DataCatcher::TYPE_URL,

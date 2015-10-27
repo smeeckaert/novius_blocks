@@ -10,16 +10,21 @@ $grid_size = \Arr::get($config, 'grid_builder_size', 70);
 $default_structure = \Arr::filter_recursive($item->blod_structure);
 
 ?>
-<div class="grid-builder" data-default-structure="<?= htmlspecialchars(\Fuel\Core\Format::forge($default_structure)->to_json()) ?>" data-hidden-field="blod_structure" data-hidden>
+<div class="grid-builder"
+     data-default-structure="<?= htmlspecialchars(\Fuel\Core\Format::forge($default_structure)->to_json()) ?>"
+     data-hidden-field="blod_structure" data-hidden>
     <div class="grid-mode">
         <select name="blod_mode" data-grid-mode>
-            <option value="fixed" <?= $item->blod_mode == $item::MODE_FIXED ? 'selected="selected"' : '' ?> data-description="<?= __('The width and height of the blocks will be rendered proportionately.') ?>">
+            <option value="fixed" <?= $item->blod_mode == $item::MODE_FIXED ? 'selected="selected"' : '' ?>
+                    data-description="<?= __('The width and height of the blocks will be rendered proportionately.') ?>">
                 <?= __('Fixed') ?>
             </option>
-            <option value="floating" <?= $item->blod_mode == $item::MODE_FLOATING ? 'selected="selected"' : '' ?> data-description="<?= __('The width of the blocks will be rendered proportionately but their height will fit the content.') ?>">
+            <option value="floating" <?= $item->blod_mode == $item::MODE_FLOATING ? 'selected="selected"' : '' ?>
+                    data-description="<?= __('The width of the blocks will be rendered proportionately but their height will fit the content.') ?>">
                 <?= __('Floating') ?>
             </option>
         </select>
+
         <div class="description" data-grid-mode-description></div>
     </div>
 </div>
@@ -32,17 +37,17 @@ require(
         'jquery-ui.droppable',
         'jquery-ui.resizable'
     ],
-    function($) {
+    function ($) {
 
         var $form = $('#<?= $fieldset->form()->get_attribute('id') ?>');
 
         // Initialize the grids
-        $form.find('.grid-builder').each(function() {
+        $form.find('.grid-builder').each(function () {
             var $grid = $(this);
 
             // Initialize settings
             var settings = {
-                mode: 'fixed', // fixed or floating
+                mode : 'fixed', // fixed or floating
                 block: {
                     size: <?= $grid_size ?>
                 }
@@ -52,7 +57,7 @@ require(
             var $rows = $('<div class="grid-rows"></div>').appendTo($grid);
 
             // Switch mode (floating or fixed)
-            $grid.find('[data-grid-mode]').on('change', function() {
+            $grid.find('[data-grid-mode]').on('change',function () {
                 if ($(this).val() == 'floating') {
                     $grid.addClass('floating').removeClass('fixed');
                 } else {
@@ -64,16 +69,16 @@ require(
             }).trigger('change');
 
             // Initialize the save event
-            $grid.bind('save', function() {
+            $grid.bind('save', function () {
                 var rows = export_grid();
                 var field_name = $grid.data('hidden-field');
                 if (field_name) {
-                    $form.find('input[name="'+field_name+'"]').val(JSON.stringify(rows));
+                    $form.find('input[name="' + field_name + '"]').val(JSON.stringify(rows));
                 }
             });
 
             // Initialize the "Add a new row" button
-            $('<a href="#" class="new-row"><?= __('Create a new row') ?></a>').on('click', function(e) {
+            $('<a href="#" class="new-row"><?= __('Create a new row') ?></a>').on('click',function (e) {
                 e.preventDefault();
                 add_row();
             }).appendTo($grid);
@@ -81,12 +86,12 @@ require(
             // Initialize the default structure
             var default_structure = $grid.data('default-structure') || [];
             if (default_structure.length) {
-                $.each(default_structure, function(key, row) {
+                $.each(default_structure, function (key, row) {
                     var $row = add_row(row);
-                    $.each(row, function(key, column) {
+                    $.each(row, function (key, column) {
                         var $column = add_column($row, column);
                         if (column.blocks) {
-                            $.each(column.blocks, function(key, block) {
+                            $.each(column.blocks, function (key, block) {
                                 add_block($column, block);
                             });
                         }
@@ -99,14 +104,14 @@ require(
              */
             function export_grid() {
                 var rows = [];
-                $grid.find('.grid-row').each(function() {
+                $grid.find('.grid-row').each(function () {
                     var columns = [];
                     // Search columns
-                    $(this).find('.grid-column').each(function() {
+                    $(this).find('.grid-column').each(function () {
                         var $column = $(this);
                         var blocks = [];
                         // Search blocks
-                        $(this).find('.grid-block').each(function() {
+                        $(this).find('.grid-block').each(function () {
                             var $block = $(this);
                             blocks.push({
                                 w: $block.width() / settings.block.size,
@@ -114,8 +119,8 @@ require(
                             });
                         });
                         columns.push({
-                            w: $column.width() / settings.block.size,
-                            h: $column.height() / settings.block.size,
+                            w     : $column.width() / settings.block.size,
+                            h     : $column.height() / settings.block.size,
                             blocks: blocks
                         })
                     });
@@ -133,20 +138,20 @@ require(
                 } else {
                     $preview.html('');
                 }
-                $grid.find('.grid-row').each(function() {
+                $grid.find('.grid-row').each(function () {
                     var columns = [];
 
                     var $new_row = $('<div/>').addClass('row').appendTo($preview);
 
                     // Search columns
-                    $(this).find('.grid-column').each(function() {
+                    $(this).find('.grid-column').each(function () {
                         var $column = $(this);
 
                         var $new_column = $('<div/>').addClass('column').appendTo($new_row);
 
                         var blocks = [];
                         // Search blocks
-                        $(this).find('.grid-block').each(function() {
+                        $(this).find('.grid-block').each(function () {
                             var $block = $(this);
                             blocks.push({
                                 w: $block.width() / settings.block.size,
@@ -156,8 +161,8 @@ require(
                             $('<div/>').addClass('block').attr('width', w + '%').appendTo($new_column);
                         });
                         columns.push({
-                            w: $column.width() / settings.block.size,
-                            h: $column.height() / settings.block.size,
+                            w     : $column.width() / settings.block.size,
+                            h     : $column.height() / settings.block.size,
                             blocks: blocks
                         })
                     });
@@ -225,7 +230,7 @@ require(
             function init_row($row, params) {
                 // Add new column
                 $actions = $('<div class="actions"></div>').appendTo($row);
-                $('<a href="#" class="new-column"><?= __('Create a new column') ?></a>').on('click add', function(e) {
+                $('<a href="#" class="new-column"><?= __('Create a new column') ?></a>').on('click add',function (e) {
                     e.preventDefault();
                     add_column($(this).closest('.grid-row'));
                 }).appendTo($actions);
@@ -245,26 +250,26 @@ require(
                 var $sortable = $column.find('.sortable');
                 $sortable.sortable({
                     connectWith: '.sortable',
-                    tolerance: 'pointer',
+                    tolerance  : 'pointer',
                     containment: "parent",
-                    distance: 20,
-                    snapMode: true,
-                    snap: 'both',
-                    cursor: 'move',
-                    revert: 200,
-                    scroll: false,
-                    start: function( event, ui ) {
+                    distance   : 20,
+                    snapMode   : true,
+                    snap       : 'both',
+                    cursor     : 'move',
+                    revert     : 200,
+                    scroll     : false,
+                    start      : function (event, ui) {
                         clone = $(ui.item[0].outerHTML).clone();
                     },
                     placeholder: {
-                        element: function(clone, ui) {
-                            return $('<li class="grid-block-placeholder">'+clone[0].innerHTML+'</li>');
+                        element: function (clone, ui) {
+                            return $('<li class="grid-block-placeholder">' + clone[0].innerHTML + '</li>');
                         },
-                        update: function() {
+                        update : function () {
                             return;
                         }
                     },
-                    stop: function() {
+                    stop       : function () {
                         // Generate block numbers
                         generate_blocks_numbers();
                         // Fit column
@@ -278,13 +283,13 @@ require(
                 // Add new block in column
                 $('<div class="actions"></div>')
                     .append(
-                        $('<a href="#" class="new-block" title="<?= __('Create a new block') ?>">+</a>').on('click', function(e) {
+                        $('<a href="#" class="new-block" title="<?= __('Create a new block') ?>">+</a>').on('click', function (e) {
                             e.preventDefault();
                             add_block($column);
                         })
                     )
                     .append(
-                        $('<a href="#" class="delete-column" title="<?= __('Delete this block') ?>">X</a>').on('click', function(e) {
+                        $('<a href="#" class="delete-column" title="<?= __('Delete this block') ?>">X</a>').on('click', function (e) {
                             e.preventDefault();
                             $(this).closest('.grid-column').remove();
                             $grid.trigger('save');
@@ -295,16 +300,16 @@ require(
 
                 // Resizable column
                 $column.resizable({
-                    grid: settings.block.size,
+                    grid   : settings.block.size,
                     handles: settings.mode == 'floating' ? 'e' : 'e',
-                    stop: function() {
+                    stop   : function () {
                         // Generate block numbers
                         generate_blocks_numbers();
                         // Save the grid
                         $grid.trigger('save');
                     },
                     // Minimal height and width based on content
-                    resize: function(event, ui) {
+                    resize : function (event, ui) {
                         column_fit_blocks($(ui.element));
                     }
                 });
@@ -326,7 +331,7 @@ require(
             function column_fit_blocks($column) {
                 // Calculate minimum height of column
                 var min_height = settings.block.size;
-                $column.find('.grid-block').each(function() {
+                $column.find('.grid-block').each(function () {
                     var mh = $(this).position().top + $(this).height();
                     if (mh > min_height) {
                         min_height = mh;
@@ -335,7 +340,7 @@ require(
                 $column.css('min-height', min_height);
                 // Calculate minimum width of column
                 var min_width = settings.block.size;
-                $column.find('.grid-block').each(function() {
+                $column.find('.grid-block').each(function () {
                     var mw = $(this).width();
                     if (mw > min_width) {
                         min_width = mw;
@@ -352,17 +357,17 @@ require(
              */
             function init_block($block, params) {
                 $block.resizable({
-                    grid: settings.block.size,
+                    grid   : settings.block.size,
 //                    containment: "parent",
                     handles: settings.mode == 'floating' ? 'e' : 's, e',
-                    stop: function() {
+                    stop   : function () {
                         // Generate block numbers
                         generate_blocks_numbers();
                         // Save the grid
                         $grid.trigger('save');
                     },
                     // Minimal height and width based on content
-                    resize: function(event, ui) {
+                    resize : function (event, ui) {
                         //column_fit_blocks($(ui.element).closest('.grid-column'));
                     }
                 });
@@ -370,7 +375,7 @@ require(
                 // Delete link
                 $('<div class="actions"></div>')
                     .append(
-                        $('<a href="" class="delete-block">X</a>').on('click', function(e) {
+                        $('<a href="" class="delete-block">X</a>').on('click', function (e) {
                             e.preventDefault();
                             $(this).closest('li').remove();
                             $grid.trigger('save');
@@ -401,7 +406,7 @@ require(
              */
             function generate_blocks_numbers() {
                 var n = 1;
-                $grid.find('.grid-block .block-content').each(function() {
+                $grid.find('.grid-block .block-content').each(function () {
                     $(this).html(n++);
                 })
             }
@@ -412,315 +417,315 @@ require(
 
 <style type="text/css">
 .grid-builder {
-    position: relative;
-    width: <?= $grid_columns * $grid_size ?>px;
-    padding: 20px;
+    position : relative;
+    width    : <?= $grid_columns * $grid_size ?>px;
+    padding  : 20px;
 }
 
 .grid-builder .grid-mode {
-    margin-bottom: 15px;
+    margin-bottom : 15px;
 }
 
 .grid-builder .grid-mode select {
-    margin: 0 8px 15px 0;
-    float: left;
+    margin : 0 8px 15px 0;
+    float  : left;
 }
 
 .grid-builder .grid-mode .description {
-    padding: 7px 0;
+    padding : 7px 0;
 }
 
 .grid-builder .sortable {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    min-height: <?= $grid_size ?>px;
+    list-style-type : none;
+    margin          : 0;
+    padding         : 0;
+    height          : 100%;
+    width           : 100%;
+    min-height      : <?= $grid_size ?>px;
 }
 
 .grid-builder .sortable:after {
-    content: '';
-    display: block;
-    clear: both;
+    content : '';
+    display : block;
+    clear   : both;
 }
 
 .grid-builder .sortable li {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    float: left;
-    width: <?= $grid_size ?>px;
-    height: <?= $grid_size ?>px;
-    text-align: center;
-    vertical-align: middle;
-    text-align: center;
-    font-size: 12px;
-    line-height: <?= $grid_size ?>px;
-    border: 0;
+    position       : relative;
+    margin         : 0;
+    padding        : 0;
+    float          : left;
+    width          : <?= $grid_size ?>px;
+    height         : <?= $grid_size ?>px;
+    text-align     : center;
+    vertical-align : middle;
+    text-align     : center;
+    font-size      : 12px;
+    line-height    : <?= $grid_size ?>px;
+    border         : 0;
 }
 
 .grid-builder.floating .sortable li {
-    height: <?= $grid_size ?>px !important;
+    height : <?= $grid_size ?>px !important;
 }
 
 .grid-builder .grid-rows {
-    margin-bottom: 15px;
+    margin-bottom : 15px;
 }
 
 .grid-builder .grid-row {
-    position: relative;
-    float: left;
-    width: 100%;
-    margin: 0 0 35px 0;
-    padding: 0;
-    background: #F7F8FA;
+    position   : relative;
+    float      : left;
+    width      : 100%;
+    margin     : 0 0 35px 0;
+    padding    : 0;
+    background : #F7F8FA;
 }
 
 .grid-builder .grid-columns {
-    min-height: <?= $grid_size ?>px;
+    min-height : <?= $grid_size ?>px;
 }
 
 .grid-builder .grid-column {
-    float: left !important;
-    padding: 0;
-    max-width: 100%;
-    max-height: 100%;
-    background: rgb(244, 250, 255);
-    background: rgb(217, 235, 245);
+    float      : left !important;
+    padding    : 0;
+    max-width  : 100%;
+    max-height : 100%;
+    background : rgb(244, 250, 255);
+    background : rgb(217, 235, 245);
 }
 
 .grid-builder.floating .grid-column {
-    height: auto !important;
-    min-height: 100% !important;
+    height     : auto !important;
+    min-height : 100% !important;
 }
 
 .grid-builder.fixed .grid-column {
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: 100% !important;
+    height     : auto !important;
+    min-height : 0 !important;
+    max-height : 100% !important;
 }
 
 .grid-builder .grid-column:before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: transparent;
-    z-index: 1;
-    border: 1px dashed rgb(255, 255, 255);
+    content    : '';
+    display    : block;
+    position   : absolute;
+    top        : 0;
+    left       : 0;
+    right      : 0;
+    bottom     : 0;
+    background : transparent;
+    z-index    : 1;
+    border     : 1px dashed rgb(255, 255, 255);
 }
 
 .grid-builder .grid-blocks {
-    margin: 0;
-    min-width: <?= $grid_size ?>px;
-    min-height: <?= $grid_size ?>px;
-    height: 100%;
+    margin     : 0;
+    min-width  : <?= $grid_size ?>px;
+    min-height : <?= $grid_size ?>px;
+    height     : 100%;
 }
 
 .grid-builder .grid-block-placeholder,
 .grid-builder .grid-block {
-    max-width: 100%;
-    max-height: 100%;
-    background: #B7D4E7;
+    max-width  : 100%;
+    max-height : 100%;
+    background : #B7D4E7;
 }
+
 .grid-builder .grid-block-placeholder:before,
 .grid-builder .grid-block:before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: transparent;
-    z-index: 0;
-    border: 5px solid rgb(217, 235, 245);
+    content    : '';
+    display    : block;
+    position   : absolute;
+    top        : 0;
+    left       : 0;
+    right      : 0;
+    bottom     : 0;
+    background : transparent;
+    z-index    : 0;
+    border     : 5px solid rgb(217, 235, 245);
 }
 
 .grid-builder .grid-block-placeholder {
-    background: rgb(255, 255, 195);
-    opacity: 0.5;
+    background : rgb(255, 255, 195);
+    opacity    : 0.5;
 }
 
 .grid-builder .grid-block .block-content {
-    display: block;
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    left: 0;
-    line-height: 12px;
-    margin-top: -6px;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
+    display     : block;
+    position    : absolute;
+    width       : 100%;
+    top         : 50%;
+    left        : 0;
+    line-height : 12px;
+    margin-top  : -6px;
+    font-weight : bold;
+    font-size   : 14px;
+    text-align  : center;
 }
 
 .grid-builder:after,
 .grid-builder .grid-rows:after,
 .grid-builder .grid-columns:after {
-    content: '';
-    display: block;
-    clear: both;
+    content : '';
+    display : block;
+    clear   : both;
 }
 
 .grid-builder .actions {
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    bottom: auto;
-    right: auto;
-    text-align: left;
-    z-index: 5;
-    -moz-transition: all .2s;
-    -webkit-transition: all .2s;
-    -o-transition: all .2s;
-    -ms-transition: all .2s;
-    transition: all .2s;
+    position           : absolute;
+    left               : 1px;
+    top                : 1px;
+    bottom             : auto;
+    right              : auto;
+    text-align         : left;
+    z-index            : 5;
+    -moz-transition    : all .2s;
+    -webkit-transition : all .2s;
+    -o-transition      : all .2s;
+    -ms-transition     : all .2s;
+    transition         : all .2s;
 }
 
-
 .grid-builder .actions a {
-    padding: 0 5px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    font-weight: bold;
-    color: white;
-    background: #666;
-    text-decoration: none;
+    padding         : 0 5px;
+    height          : 20px;
+    line-height     : 20px;
+    text-align      : center;
+    font-weight     : bold;
+    color           : white;
+    background      : #666;
+    text-decoration : none;
 }
 
 .grid-builder .grid-row > .actions {
-    display: block;
-    position: absolute;
-    top: auto;
-    bottom: -26px;
-    left: 0;
-    right: auto;
+    display  : block;
+    position : absolute;
+    top      : auto;
+    bottom   : -26px;
+    left     : 0;
+    right    : auto;
 }
 
 .grid-builder .grid-row > .actions a {
-    display: inline-block;
-    color: white;
-    text-decoration: none;
-    background: #666;
-    font-size: 12px;
-    font-weight: normal;
-    z-index: 1;
-    padding: 3px 10px;
+    display         : inline-block;
+    color           : white;
+    text-decoration : none;
+    background      : #666;
+    font-size       : 12px;
+    font-weight     : normal;
+    z-index         : 1;
+    padding         : 3px 10px;
 }
 
 .grid-builder .grid-columns .actions {
-    opacity: 0;
+    opacity : 0;
 }
 
 .grid-builder .grid-columns .actions a {
-    display: inline-block;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    font-size: 10px;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    background: #435B6B;
+    display         : inline-block;
+    padding         : 0;
+    width           : 20px;
+    height          : 20px;
+    line-height     : 20px;
+    font-size       : 10px;
+    font-weight     : bold;
+    color           : white;
+    text-align      : center;
+    text-decoration : none;
+    background      : #435B6B;
 }
 
 .grid-builder .grid-columns .actions a + a {
-    margin-left: 1px;
+    margin-left : 1px;
 }
 
 .grid-builder .grid-block .actions {
-    display: block;
-    top: 5px;
-    right: 5px;
-    left: 5px;
-    bottom: 5px;
-    line-height: 22px;
-    z-index: 4;
-    opacity: 0;
-    text-align: right;
+    display     : block;
+    top         : 5px;
+    right       : 5px;
+    left        : 5px;
+    bottom      : 5px;
+    line-height : 22px;
+    z-index     : 4;
+    opacity     : 0;
+    text-align  : right;
 }
 
 .grid-builder .grid-column:hover > .grid-blocks > .actions,
 .grid-builder .grid-block > .actions:hover {
-    opacity: 1;
+    opacity : 1;
 }
 
 .grid-builder .grid-column .actions .delete-column,
 .grid-builder .grid-column .actions .delete-column:visited {
-    font-weight: bold;
-    background: #BB5A69;
+    font-weight : bold;
+    background  : #BB5A69;
 }
 
 .grid-builder .grid-block .actions .delete-block,
 .grid-builder .grid-block .actions .delete-block:visited {
-    background: red;
+    background : red;
 }
 
 .grid-builder .new-row {
-    float: left;
-    padding: 3px 10px;
-    right: 0;
-    bottom: -26px;
-    line-height: 20px;
-    font-size: 12px;
-    font-weight: normal;
-    color: white;
-    background: #666;
-    text-decoration: none;
-    z-index: 1;
+    float           : left;
+    padding         : 3px 10px;
+    right           : 0;
+    bottom          : -26px;
+    line-height     : 20px;
+    font-size       : 12px;
+    font-weight     : normal;
+    color           : white;
+    background      : #666;
+    text-decoration : none;
+    z-index         : 1;
 }
 
 .grid-builder .grid-column > .ui-resizable-se {
-    margin-right: -4px;
-    margin-bottom: -4px;
-    background-position: -68px -228px;
-    opacity: 0.6;
+    margin-right        : -4px;
+    margin-bottom       : -4px;
+    background-position : -68px -228px;
+    opacity             : 0.6;
 }
 
 .grid-builder .grid-column > .ui-resizable-s {
-    bottom: -3px;
+    bottom : -3px;
 }
 
 .grid-builder .grid-column > .ui-resizable-e {
-    right: -3px;
+    right : -3px;
 }
 
 .grid-builder .grid-block > .ui-resizable-se {
-    bottom: 5px;
-    right: 5px;
+    bottom : 5px;
+    right  : 5px;
 }
 
 .grid-builder .grid-block > .ui-resizable-s {
-    bottom: 5px;
-    right: 5px;
-    left: 5px;
-    width: auto;
+    bottom : 5px;
+    right  : 5px;
+    left   : 5px;
+    width  : auto;
 }
 
 .grid-builder .grid-block > .ui-resizable-e {
-    bottom: 5px;
-    right: 5px;
-    top: 5px;
-    height: auto;
+    bottom : 5px;
+    right  : 5px;
+    top    : 5px;
+    height : auto;
 }
 
 .grid-builder .save {
-    float: right;
-    padding: 3px 10px;
-    bottom: -26px;
-    right: 0;
-    font-weight: bold;
-    color: white;
-    background: darkgreen;
-    text-decoration: none;
-    z-index: 1;
+    float           : right;
+    padding         : 3px 10px;
+    bottom          : -26px;
+    right           : 0;
+    font-weight     : bold;
+    color           : white;
+    background      : darkgreen;
+    text-decoration : none;
+    z-index         : 1;
 }
 </style>
