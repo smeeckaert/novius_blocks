@@ -11,13 +11,32 @@ return array(
                         'nomargin' => false,
                         'options'  => array(
                             'allowExpand' => true,
-                            'fieldset'    => 'image',
                         ),
                         'content'  => array(
                             'view'   => 'nos::form/fields',
                             'params' => array(
                                 'fields' => array(
                                     'medias->image->medil_media_id',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'link'  => array(
+                    'view'   => 'nos::form/expander',
+                    'params' => array(
+                        'title'    => __('Link'),
+                        'nomargin' => false,
+                        'options'  => array(
+                            'allowExpand' => true,
+                        ),
+                        'content'  => array(
+                            'view'   => 'nos::form/fields',
+                            'params' => array(
+                                'fields' => array(
+                                    'block_link_title',
+                                    'block_link_new_page',
+                                    'block_link_search',
                                 ),
                             ),
                         ),

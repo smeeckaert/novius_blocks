@@ -9,10 +9,10 @@
  */
 
 return array(
-    'css' => array('static/apps/novius_blocks/css/admin/block.css'),
-    'controller_url'      => 'admin/novius_blocks/block/crud',
-    'model'               => 'Novius\Blocks\Model_Block',
-    'layout'              => array(
+    'css'            => array('static/apps/novius_blocks/css/admin/block.css'),
+    'controller_url' => 'admin/novius_blocks/block/crud',
+    'model'          => 'Novius\Blocks\Model_Block',
+    'layout'         => array(
         'large'   => true,
         'save'    => 'save',
         'title'   => 'block_title',
@@ -128,15 +128,15 @@ return array(
             ),*/
         ),
     ),
-    'fields'              => array(
-        'block_id'    => array(
+    'fields'         => array(
+        'block_id'            => array(
             'label'     => 'ID: ',
             'form'      => array(
                 'type' => 'hidden',
             ),
             'dont_save' => true,
         ),
-        'block_title' => array(
+        'block_title'         => array(
             'label'      => __('Title'),
             'form'       => array(
                 'type' => 'text',
@@ -144,110 +144,44 @@ return array(
             'validation' => array('required'),
         ),
 
-        'block_template' => array(
-            'label' => '',
+        'block_template'      => array(
+            'label'      => '',
             'validation' => array(
                 'required',
             ),
         ),
-        /*
-        'wysiwygs->description->wysiwyg_text' => array(
-            'label' => __('Description'),
-            'renderer' => 'Nos\Renderer_Wysiwyg',
-            'template' => '{field}',
-            'form' => array(
-                'style' => 'width: 100%; height: 200px;',
-            ),
-        ),
-        'medias->image->medil_media_id' => array(
-            'label' => '',
-            'renderer' => 'Nos\Renderer_Media',
-            'form' => array(
-                'title' => __('Image'),
-            ),
-        ),
-        'block_link' => array(
-            'label' => __('Link'),
-            'description' => '',
-        ),
-        'block_link_title' => array(
+        'block_link_title'    => array(
             'label' => __('Text of the link'),
         ),
         'block_link_new_page' => array(
             'label' => __('Open in a new page'),
-            'form' => array(
-                'type' => 'checkbox',
+            'form'  => array(
+                'type'  => 'checkbox',
                 'value' => 1,
             ),
         ),
-        'block_class' => array(
-            'label' => __('Class'),
-            'form' => array(
-                'type' => 'text',
-            ),
-        ),
-        'columns' => array(
-            'renderer' => 'Novius\Renderers\Renderer_Multiselect',
-            'label' => __('Groups'),
-            'form' => array(
-                'options' => array(),
-                'style' => array(
-                    'width' => '70%'
-                )
-            ),
-            'populate' => function($item) {
-                if (!empty($item->columns)) {
-                    return array_keys($item->columns);
-                } else {
-                    return array();
-                }
-            },
-            'before_save' => function($item, $data) {
-                $item->columns;
-                unset($item->columns);
-                if (!empty($data['columns'])) {
-                    foreach ($data['columns'] as $blco_id) {
-                        if (ctype_digit($blco_id) ) {
-                            $item->columns[$blco_id] = \Novius\Blocks\Model_Column::find($blco_id);
-                        }
-                    }
-                }
-            },
-        ),
-        'block_model' => array(
-            'form' => array(
-                'type' => 'hidden',
-            ),
-        ),
-        'model_autocomplete' => array(
-            'label' => __('Search the item'),
-            'renderer' => '\Novius\Renderers\Renderer_Autocomplete',
-            'form' => array(),
+        'block_link_search'   => array(
+            'label'            => __('Lien'),
+            'renderer'         => 'Novius\Renderers\Renderer_ModelSearch',
+            'dont_save'        => true,
             'renderer_options' => array(
-                'data' => array(
-                    'data-autocomplete-url' => 'admin/novius_blocks/block/crud/autocomplete_model',
-                    'data-maj_url' => '1',
-                    'data-autocomplete-callback' => 'click_model',
-                )
+                'names'    => array(
+                    'id'       => 'block_model_id',
+                    'model'    => 'block_model',
+                    'external' => 'block_link',
+                ),
+                'external' => true,
             ),
-            'populate' => function($item){
-            },
-            'dont_save' => true,
+            'populate'         => function ($item) {
+                    return array(
+                        'model'    => $item->block_model,
+                        'id'       => $item->block_model_id,
+                        'external' => $item->block_link,
+                    );
+                },
         ),
-        'block_model_id' => array(
-            'form' => array(
-                'type' => 'hidden',
-            ),
-        ),
-        'save' => array(
-            'label' => '',
-            'form' => array(
-                'type' => 'submit',
-                'tag' => 'button',
-                'value' => __('Save'),
-                'class' => 'primary',
-                'data-icon' => 'check',
-            ),
-        ),*/
+        'block_model_id'      => array(),
+        'block_model'         => array(),
+        'block_link'          => array(),
     )
 );
