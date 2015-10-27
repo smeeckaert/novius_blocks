@@ -19,6 +19,11 @@ define(
             var $container = $(this);
             // The radio which allows to select the template
 
+            // Resize the content of the expander when expandaned
+            $container.find('.block_over_wrapper').parents('.expander').find('.ui-expander-content').nosOnShow('bind', function () {
+                equalizeAll();
+            });
+
             // We make the templates clickables
             $container.find('.block_over_wrapper').each(function (e) {
                 var $wrapper = $(this);
@@ -47,16 +52,22 @@ define(
                 });
             });
 
+            // Equalize the templates when images are loaded
             $container.find('img').on('load', function () {
+                equalizeAll();
+            });
+
+            // Equalize each block and then the templates containers
+            function equalizeAll() {
                 $container.find('.block_over_wrapper').each(function (e) {
                     equalizeBlock($(this).find('.block_preview'));
                 });
                 equalizeTemplates();
-            });
+            }
 
 
+            // Equalize every template container to match the same height
             function equalizeTemplates() {
-                // We equilibrate the display of the template's preview
                 var max_height = 0;
                 $container.find('.block_over_wrapper').css('min-height', '');
                 $container.find('.block_over_wrapper').each(function () {
@@ -69,6 +80,7 @@ define(
 
             equalizeTemplates();
 
+            // Equalize each part of a block
             function equalizeBlock($block) {
                 var paddingBlock = parseInt($block.find('.content').css('padding'));
                 $block.find('.col,.content').css('height', '');
@@ -91,7 +103,7 @@ define(
                 return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null
             }
 
-            // Change the form type
+            // Change the block type by reloading the current tab
             function setTemplate($container, $selected) {
                 var tplName = $selected.val();
                 var tabUrl = getURLParameter('tab');
