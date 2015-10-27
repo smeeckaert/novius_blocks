@@ -57,7 +57,7 @@ return array(
     'template' => array(
         'main_row' => array(
             'col_left'  => array(
-                'width'  => 9,
+                'width'  => 8,
                 'fields' => array(
                     'block_title',
                 ),

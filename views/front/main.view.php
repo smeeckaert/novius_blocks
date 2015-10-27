@@ -7,7 +7,6 @@
  *             http://www.gnu.org/licenses/agpl-3.0.html
  * @link       http://www.novius-os.org
  */
-
 ?>
 <div class="blocks_wrapper">
     <?= !empty($blocks) ? $blocks : '' ?>
