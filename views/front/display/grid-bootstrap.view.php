@@ -20,7 +20,7 @@ $grid_size = \Arr::get($config, 'grid_builder_size', 70);
         <?php foreach ($columns as $column) {
             $col_width = \Arr::get($column, 'w', $grid_columns);
             ?>
-            <div class="large-<?= $col_width ?> columns">
+            <div class="col-lg-<?= $col_width ?>">
                 <div class="row">
                     <?php
                     $row_width = 0;
@@ -28,7 +28,7 @@ $grid_size = \Arr::get($config, 'grid_builder_size', 70);
                         $block_width = \Arr::get($block, 'w', $grid_columns);
                         $row_width += $block_width;
                         ?>
-                        <div class="block column" style="width: <?= \Novius\Blocks\Display::decimalToPoint($block_width * (100 / $col_width)) ?>%;">
+                        <div class="block col" style="width: <?= \Novius\Blocks\Display::decimalToPoint($block_width * (100 / $col_width)) ?>%;">
                             <?php if ($display->blod_mode == 'fixed') {
                                 // Calculates the height/widht ratio in percent
                                 $height_ratio = (\Arr::get($block, 'h', $grid_columns) / \Arr::get($block, 'w', 1)) * 100;
