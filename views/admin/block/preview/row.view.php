@@ -1,4 +1,4 @@
-<div class="row <?= $name ?>">
+<div class="line <?= $name ?>">
     <?php
 
     $rowSize = 12;

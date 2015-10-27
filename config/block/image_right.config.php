@@ -2,7 +2,6 @@
 
 return array(
     'title'    => 'Image right',
-    'view'     => 'novius_blocks::templates/{name}',
     'crud'     => array(
         'layout' => array(),
         'fields' => array(),

@@ -1,7 +1,7 @@
 <?php
 
 if (empty($blocks)) {
-    return ;
+    return;
 }
 
 // Display the blocks

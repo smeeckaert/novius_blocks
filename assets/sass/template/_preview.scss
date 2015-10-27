@@ -4,9 +4,12 @@
         padding : 0;
     }
 
+    .line .line {
+        margin : 0
+    }
+
     .content {
         background : #BFDDFF;
-
         border     : 1px solid #fff;
 
         .block_title {

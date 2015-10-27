@@ -8,7 +8,6 @@
  * @link       http://www.novius-os.org
  */
 
-$templates_config = \Config::load('novius_blocks::templates', true);
 ?>
 <script type="text/javascript">
     require(['jquery-nos', 'static/apps/novius_blocks/js/admin/blocks.js?v=5.0.0.0'], function ($, callback_fn) {
@@ -20,8 +19,8 @@ $templates_config = \Config::load('novius_blocks::templates', true);
 <div class="blocks_wrapper">
     <?php
 
+    $templates_config = \Config::load('novius_blocks::templates', true);
     foreach ($templates_config as $name) {
-
         if (!is_string($name)) {
             d("Bloc $name misconfigured");
             continue;

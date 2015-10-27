@@ -169,28 +169,14 @@ class Model_Block extends \Nos\Orm\Model
     {
         $configBloc    = \Config::load("novius_blocks::block/$type", true);
         $configDefault = \Config::load("novius_blocks::block/default", true);
-        return \Arr::merge($configDefault, $configBloc);
-    }
-
-    /**
-     * Return the config of a particular block
-     * Default parameters are defined in this function
-     *
-     * @param $config
-     * @param $name
-     *
-     * @return array
-     */
-    public static function init_config($config, $name)
-    {
-        $default_config         = \Config::load('novius_blocks::template_default', true);
-        $default_config['view'] = str_replace('{name}', $name, $default_config['view']);
-
-        $retour_config = \Arr::merge($default_config, $config);
-        if (isset($config['fields']) && $config['fields']) {
-            $retour_config['fields'] = $config['fields'];
+        $blockConfig   = \Arr::merge($configDefault, $configBloc);
+        $list          = array('view', 'preview');
+        foreach ($list as $property) {
+            if (isset($blockConfig[$property])) {
+                $blockConfig[$property] = strtr($blockConfig[$property], array('{name}' => $type));
+            }
         }
-        return $retour_config;
+        return $blockConfig;
     }
 
     /**
@@ -198,7 +184,6 @@ class Model_Block extends \Nos\Orm\Model
      */
     public function _event_after_save()
     {
-
         foreach ($this->columns as $column) {
             if (!empty($column->blco_blocks_ordre)) {
                 $blocks_order = (array)unserialize($column->blco_blocks_ordre);
