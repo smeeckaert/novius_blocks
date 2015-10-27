@@ -23,55 +23,6 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
     /** @var $block_template used to store the block template for a new block */
     protected $block_template = null;
 
-    protected function init_item()
-    {
-        parent::init_item();
-
-        // We retrieve the get values
-        $title        = \Input::get('title', null);
-        $absolute_url = \Input::get('absolute_url', null);
-        $summary      = \Input::get('summary', null);
-        $thumbnail    = \Input::get('thumbnail', null);
-
-        // And we set them to the item if they're not empty
-        if (!empty($title)) {
-            $this->item->block_title = $title;
-        }
-        if (!empty($summary)) {
-            $this->item->wysiwygs->description = nl2br($summary);
-        }
-        if (!empty($thumbnail)) {
-            $this->item->{'medias->image->medil_media_id'} = $thumbnail;
-        }
-        if (!empty($absolute_url)) {
-            $this->item->block_link = str_replace(\Uri::base(), '', $absolute_url);
-        }
-    }
-
-    /**
-     * Return the config for setting the url of the novius-os tab
-     *
-     * @return Array
-     */
-    protected function get_tab_params()
-    {
-        $tabInfos = parent::get_tab_params();
-
-        if ($this->is_new) {
-            $params = array();
-            foreach (array('title', 'summary', 'thumbnail', 'absolute_url') as $key) {
-                $value = \Input::get($key, false);
-                if ($value !== false) {
-                    $params[$key] = $value;
-                }
-            }
-            if (count($params)) {
-                $tabInfos['url'] = $tabInfos['url'] . '&' . http_build_query($params);
-            }
-        }
-        return $tabInfos;
-    }
-
     protected function addStylesheets()
     {
         $stylesheets = \Arr::get($this->config, 'css');
@@ -122,6 +73,12 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
                 $this->item->block_template = $this->block_template;
             }
         }
+        // When we are saving the block, be sure we are using the good template with the good fields.
+        $postedTpl = \Input::post('block_template');
+        if (!empty($postedTpl)) {
+            $this->item->block_template = $postedTpl;
+        }
+
 
         $this->clone = clone $this->item;
         $this->checkPermission($this->is_new ? 'add' : 'edit');
