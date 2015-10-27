@@ -124,15 +124,10 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
         }
 
         $this->clone = clone $this->item;
-        //d($this->item);
-
-
         $this->checkPermission($this->is_new ? 'add' : 'edit');
-
 
         $blockConfig = $this->item->getConfig();
         $toMerge     = array('layout' => "layout.0.params", 'fields' => 'fields');
-        //d($this->config['layout']);
         foreach ($toMerge as $source => $destination) {
             \Arr::set($this->config, $destination,
                 \Arr::merge(
@@ -144,9 +139,6 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
 
         $this->config['layout_insert'] = $this->config['layout'];
         $this->config['layout_update'] = $this->config['layout'];
-        // dd($this->config);
-
-        // dd($this->config['layout']);
 
         $fields   = $this->fields($this->config['fields']);
         $fieldset = \Fieldset::build_from_config($fields, $this->item, $this->build_from_config());
