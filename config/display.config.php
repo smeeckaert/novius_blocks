@@ -8,6 +8,7 @@ return array(
     'force_grid_square' => false,
 
     // The view used to generate the frontend grid
-    'view'              => 'novius_blocks::front/display/grid',
-    //'view' => 'novius_blocks::front/display/grid-foundation',
+    'view'              => 'novius_blocks::front/display/grid-foundation',
+    // The view used to generate the frontend grid
+    'preview'           => 'novius_blocks::front/display/grid',
 );

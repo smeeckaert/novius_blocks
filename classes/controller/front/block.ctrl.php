@@ -31,7 +31,6 @@ class Controller_Front_Block extends \Nos\Controller_Front_Application
         if (empty($blocks)) {
             return false;
         }
-
         // Return the blocks wrapped in the selected display type
         return \View::forge($this->config['views'][$args['display_type']], array(
             'enhancer_args' => $args,
@@ -56,7 +55,7 @@ class Controller_Front_Block extends \Nos\Controller_Front_Application
         }
 
         // The selected display is a view ?
-        $display = \Arr::get($displays, 'views.' . $display_id);
+        $display = \Arr::get($displays, 'views.'.$display_id);
         if (!empty($display)) {
             return \View::forge(\Arr::get($display, 'view'), array(
                 'enhancer_args' => $args,
@@ -65,10 +64,14 @@ class Controller_Front_Block extends \Nos\Controller_Front_Application
         }
 
         // The selected display is a model ?
-        $display = \Arr::get($displays, 'model.' . $display_id);
+        $display = \Arr::get($displays, 'model.'.$display_id);
         if (!empty($display)) {
             $display_config = \Config::load('novius_blocks::display', true);
-            return \View::forge(\Arr::get($display_config, 'view'), array(
+            $type           = 'view';
+            if (NOS_ENTRY_POINT === Nos::ENTRY_POINT_ADMIN) {
+                $type = 'preview';
+            }
+            return \View::forge(\Arr::get($display_config, $type), array(
                 'display'       => $display,
                 'enhancer_args' => $args,
                 'blocks'        => self::get_blocks($args),
@@ -156,7 +159,7 @@ class Controller_Front_Block extends \Nos\Controller_Front_Application
 
         // CSS class
         if (!empty($block->block_class)) {
-            $config['class'] = trim(\Arr::get($config, 'class') . ' ' . $block->block_class);
+            $config['class'] = trim(\Arr::get($config, 'class').' '.$block->block_class);
         }
 
         $type = 'view';

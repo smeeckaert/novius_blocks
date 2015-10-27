@@ -54,12 +54,6 @@ class Controller_Admin_Block_Enhancer extends \Nos\Controller_Admin_Enhancer
             'config'  => $args,
             'preview' => $preview,
         );
-//        \View::forge($view, array(
-//            'layout' => $this->config['preview']['layout'],
-//            'params' => $this->config['preview']['params'],
-//            'enhancer_args' => $args,
-//            'blocks' => $blocks,
-//        ))
         \Response::json($body);
     }
 }
