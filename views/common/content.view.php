@@ -9,12 +9,12 @@
                 $value = "Can't access field $field";
             }
             ?>
-            <div class="item <?= $field ?>">
+            <div class="item <?= \Inflector::friendly_title($field) ?>">
                 <?php
                 if (is_string($value)) {
                     echo $value;
                 } else {
-                    echo \View::forge("novius_blocks::admin/block/preview/content_class", array('value' => $value), false);
+                    echo \View::forge("novius_blocks::common/content_class", array('value' => $value), false);
                 }
                 ?>
             </div>

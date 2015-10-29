@@ -15,7 +15,7 @@
                 echo \View::forge("novius_blocks::front/block/type/foundation/row", array('row' => $col, 'name' => $colname, 'item' => $item), false);
 
             } else {
-                echo \View::forge("novius_blocks::front/block/type/common/content", array('fields' => $col['fields'], 'item' => $item), false);
+                echo \View::forge("novius_blocks::common/content", array('fields' => $col['fields'], 'item' => $item), false);
             }
             ?>
         </div>

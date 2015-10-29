@@ -1,16 +1,18 @@
 .block_preview {
 
     .col {
-        padding : 0;
+        padding    : 0;
     }
 
     .line .line {
-        margin : 0
+        margin : 0;
     }
 
     .content {
         background : #BFDDFF;
         border     : 1px solid #fff;
+        min-height : 40px;
+        box-sizing : border-box;
 
         .block_title {
             font-weight : bold;

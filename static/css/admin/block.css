@@ -51,7 +51,9 @@
 
 .block_preview .content {
   background: #BFDDFF;
-  border: 1px solid #fff; }
+  border: 1px solid #fff;
+  min-height: 40px;
+  box-sizing: border-box; }
   .block_preview .content .block_title {
     font-weight: bold;
     text-align: center; }
