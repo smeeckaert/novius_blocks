@@ -8,8 +8,21 @@
         if ($rowSize <= 0) {
             $rowSize = 12;
         }
+        $properties = array('class' => "col c$colSize");
+        if (!empty($col['properties'])) {
+            $properties = \Arr::merge($properties, $col['properties']);
+        }
+
+        $propertyList = array();
+
+        array_walk($properties, function ($value, $key) use (&$propertyList) {
+            $value          = str_replace("'", "\'", $value);
+            $propertyList[] = "$key='$value'";
+        });
+
+        $properties = implode(' ', $propertyList);
         ?>
-        <div class="col c<?= $colSize ?>">
+        <div <?= $properties ?>>
             <?php
             if (!isset($col['fields'])) {
                 echo \View::forge("novius_blocks::admin/block/preview/row", array('row' => $col, 'name' => $colname, 'item' => $item), false);

@@ -6,7 +6,7 @@
             try {
                 $value = $item->$field;
             } catch (Exception $e) {
-                $value = "Can't access field $field";
+                $value = "";
             }
             ?>
             <div class="item <?= \Inflector::friendly_title($field) ?>">
