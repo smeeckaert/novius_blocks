@@ -4,6 +4,6 @@ The default configuration is set in [block/default.config.php](../config/block/d
 
 ## Front office
 
-The default view used in front office can be configured in [controller/front/block.config.php](../controller/front/block.config.php).
+The default view used in front office can be configured in [controller/front/block.config.php](../config/controller/front/block.config.php).
 
 You can set a key "type" to change the framework used to display the block. By default foundation and bootstrap are shipped with the app.
