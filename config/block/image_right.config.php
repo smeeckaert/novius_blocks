@@ -51,8 +51,9 @@ return array(
     'template' => array(
         'main_row' => array(
             'col_left'  => array(
-                'width'  => 6,
-                'fields' => array(
+                'width'      => 6,
+                'properties' => array('data-property' => 'value'),
+                'fields'     => array(
                     'title',
                     'medias->image',
                 ),
