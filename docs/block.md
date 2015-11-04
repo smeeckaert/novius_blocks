@@ -100,11 +100,13 @@ It represents the structure of a block and the fields contained in it.
 
 It's a collection of rows, containing columns.
 
-Each column can either contain a list of rows or a set of properties:
+Each column can either contain :
 
-* width : The width of the column, other columns will complete the row if necessary.
-* fields : The list of fields to display
-* properties : A list of properties to add to the column element
+* a list of subrows __or__
+* a set of properties:
+    * width : The width of the column, other columns will complete the row if necessary.
+    * fields : The list of fields to display
+    * properties : A list of properties to add to the column element
 
 #### Basic configuration
 
@@ -148,6 +150,46 @@ return array(
             'col_right' => array(
                 'fields' => array(
                     'medias->image2',
+                ),
+            ),
+        ),
+    ),
+);
+```
+
+This is an example of a complex block with subrows in it.
+
+```php
+<?php
+return array(
+    'template' => array(
+        'main_row' => array(
+            'col_left'  => array(
+                'width'  => 8,
+                'fields' => array(
+                    'block_title',
+                ),
+            ),
+            'col_right' => array(
+                'right_first_row'  => array(
+                    'col_right' => array(
+                        'fields' => array(
+                            'medias->image',
+                        ),
+                    ),
+                ),
+                'right_second_row' => array(
+                    'col_left'  => array(
+                        'width'  => 4,
+                        'fields' => array(
+                            'medias->image2',
+                        ),
+                    ),
+                    'col_right' => array(
+                        'fields' => array(
+                            'medias->image3',
+                        ),
+                    ),
                 ),
             ),
         ),
