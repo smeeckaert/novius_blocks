@@ -10,6 +10,4 @@
 
 return array(
     'basic',
-    'image_top',
-    'image_right',
 );
