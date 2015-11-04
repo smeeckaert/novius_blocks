@@ -96,7 +96,9 @@ class Controller_Admin_Block_Crud extends \Nos\Controller_Admin_Crud
 
         // Hide the block bar when a template is selected
         if (!empty($this->item->block_template)) {
-            \Arr::set($this->config, "layout.0.params.content.template.params.options.expanded", false);
+            if (\Arr::get($this->config, 'block_type.collapse_when_selected', true)) {
+                \Arr::set($this->config, "layout.0.params.content.template.params.options.expanded", false);
+            }
             $layoutExpanderKey = "layout.0.params.content.template.params.title";
             \Arr::set($this->config, $layoutExpanderKey, \Arr::get($this->config, $layoutExpanderKey, '')." : ".$blockConfig['title']);
         }

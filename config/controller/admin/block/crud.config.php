@@ -12,6 +12,9 @@ return array(
     'css'            => array('static/apps/novius_blocks/css/admin/block.css'),
     'controller_url' => 'admin/novius_blocks/block/crud',
     'model'          => 'Novius\Blocks\Model_Block',
+    'block_type'     => array(
+        'collapse_when_selected' => true,
+    ),
     'layout'         => array(
         'large'   => true,
         'save'    => 'save',

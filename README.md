@@ -22,6 +22,8 @@ The launcher allows you to create:
 
 [Default views and previews](docs/views.md)
 
+[Crud configuration](docs/crud.md)
+
 [Build instructions](docs/build.md)
 
 ##Licence
