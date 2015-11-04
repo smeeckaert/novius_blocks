@@ -13,6 +13,4 @@ return array(
         'blocks' => 'novius_blocks::front/main',
         'column' => 'novius_blocks::front/main',
     ),
-    'type'  => 'foundation',
-    //'type'  => 'bootstrap',
 );

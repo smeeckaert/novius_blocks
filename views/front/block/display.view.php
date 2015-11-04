@@ -1,6 +1,6 @@
 <?php
 
-$config = \Config::load('novius_blocks::controller/front/block', true);
+$config = Config::load('novius_blocks::display', true);
 $type = \Arr::get($config, 'type', 'foundation');
 
 if (empty($template)) {
