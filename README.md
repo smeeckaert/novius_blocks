@@ -20,6 +20,8 @@ The launcher allows you to create:
 
 [Add a new block type](docs/block.md)
 
+[Add new block properties](docs/properties.md)
+
 [Default views and previews](docs/views.md)
 
 [Crud configuration](docs/crud.md)

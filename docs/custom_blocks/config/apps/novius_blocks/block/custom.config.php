@@ -2,7 +2,7 @@
 
 return array(
     'title'    => 'Custom',
-    'view'     => 'dev_blocks::image_gauche',
+    'view'     => 'dev_blocks::image_left',
     'crud'     => array(
         'layout' => array(
             'content' => array(
@@ -51,24 +51,24 @@ return array(
         ),
         'fields' => array(
             'medias->image->medil_media_id'  => array(
-                'label'    => '',
+                'label'    => __('Image Top'),
                 'renderer' => 'Nos\Renderer_Media',
                 'form'     => array(
                     'title' => __('Image'),
                 ),
             ),
             'medias->image2->medil_media_id' => array(
-                'label'    => '',
+                'label'    => __('Image bottom left'),
                 'renderer' => 'Nos\Renderer_Media',
                 'form'     => array(
-                    'title' => __('Image 2'),
+                    'title' => __('Image'),
                 ),
             ),
             'medias->image3->medil_media_id' => array(
-                'label'    => '',
+                'label'    => __('Image bottom right'),
                 'renderer' => 'Nos\Renderer_Media',
                 'form'     => array(
-                    'title' => __('Image 3'),
+                    'title' => __('Image'),
                 ),
             ),
         ),
@@ -84,8 +84,7 @@ return array(
             'col_right' => array(
                 'right_first_row'  => array(
                     'col_right' => array(
-                        'properties' => array('data-property' => 'value'),
-                        'fields'     => array(
+                        'fields' => array(
                             'medias->image',
                         ),
                     ),
