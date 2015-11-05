@@ -26,6 +26,8 @@ The launcher allows you to create:
 
 [Crud configuration](docs/crud.md)
 
+[Display and grid](docs/grid.md)
+
 [Build instructions](docs/build.md)
 
 ##Licence
